@@ -1,0 +1,22 @@
+.notes-home {
+	text-align: center;
+
+	& &__imgwrap {
+		margin: 40px 0;
+	}
+	& &__img {
+		width: 200px;
+		height: auto;
+	}
+
+	& &__title {
+		text-transform: uppercase;
+		font-family: 'Rubik', sans-serif;
+	}
+
+	& &__subtitle {
+		text-transform: lowercase;
+		font-family: 'Pacifico', cursive;
+		font-style: italic;
+	}
+}

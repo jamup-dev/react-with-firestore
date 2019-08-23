@@ -1,0 +1,40 @@
+/* Import all bulma utilities and base reset */
+@import "~bulma/sass/utilities/_all.sass";
+@import "~bulma/sass/base/_all.sass";
+
+/* Import layout */
+@import "~bulma/sass/elements/_all.sass";
+
+/* Import the elements we need */
+@import "~bulma/sass/elements/button.sass";
+
+/* Import the components we need */
+@import "~bulma/sass/components/menu.sass";
+@import "~bulma/sass/components/navbar.sass";
+
+.notes-app {
+	padding-top: 52px;
+
+	.notes-app-area {
+		padding: 20px 20px 150px 20px;
+	}
+
+	@media screen and (min-width: 768px) {
+		display: grid;
+		grid-template-columns: 300px 1fr;
+
+		.notes-app-area {
+			padding-bottom: 20px;
+			height: calc(100vh - 52px);
+			overflow-y: auto;
+		}
+	}
+}
+
+.font-rubik {
+	font-family: 'Rubik', sans-serif;
+}
+
+.font-pacifico {
+	font-family: 'Pacifico', cursive;
+}
