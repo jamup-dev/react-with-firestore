@@ -19,4 +19,16 @@
 		font-family: 'Pacifico', cursive;
 		font-style: italic;
 	}
+
+	& &__newnote {
+		margin: 30px 0 0;
+
+		.button {
+			text-transform: uppercase;
+			font-family: 'Rubik', sans-serif;
+			max-width: 300px;
+			margin: 0 auto;
+			border-width: 4px;
+		}
+	}
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import logoUrl from '../../logo.svg';
 import './style.scss';
@@ -19,9 +20,14 @@ export default function Home() {
         Welcome to your notes. Add new notes, read and edit existing and more.
         Synced live to all your devices.
       </p>
-      <p className="is-size-5 has-text-grey-light">
-        Click on NEW NOTES to get started.
-      </p>
+      <div className="notes-home__newnote">
+        <Link
+          to="/new"
+          className="button is-success is-large is-fullwidth is-outlined"
+        >
+          New Note
+        </Link>
+      </div>
     </section>
   );
 }
