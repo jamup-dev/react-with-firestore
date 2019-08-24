@@ -83,7 +83,7 @@ function notesReducer(state, action) {
   } else if (action.type === 'delete') {
     const position = getPosition(state, action.payload.id);
     if (position === -1) {
-      throw new Error('Invalid id passed to payload during notes update.');
+      throw new Error('Invalid id passed to payload during notes delete.');
     }
     return [...state.slice(0, position), ...state.slice(position + 1)];
   }

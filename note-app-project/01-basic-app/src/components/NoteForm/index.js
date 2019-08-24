@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 
 import './style.scss';
 
+import ButtonFooter from '../ButtonFooter';
+
 export default function NoteForm({
   initialTitle = '',
   initialNote = '',
+  cancelLink = '/',
+  cancelLabel = 'Cancel',
   onSave,
 }) {
   // internal states for handling form errors
@@ -77,18 +81,18 @@ export default function NoteForm({
             <p className="help is-danger">Please enter a note</p>
           ) : null}
         </div>
-        <div className="field is-grouped note-app-form__footer">
+        <ButtonFooter>
           <div className="control">
             <button className="button is-primary" type="submit">
               Submit
             </button>
           </div>
           <div className="control">
-            <Link className="button is-white" to="/">
-              Cancel
+            <Link className="button is-white" to={cancelLink}>
+              {cancelLabel}
             </Link>
           </div>
-        </div>
+        </ButtonFooter>
       </form>
     </div>
   );

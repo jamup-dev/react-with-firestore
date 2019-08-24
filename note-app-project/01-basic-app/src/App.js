@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import './style.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Sidebar from './components/Sidebar';
 import Nav from './components/Nav';
@@ -9,7 +11,7 @@ import Error404 from './components/404';
 import { useNotes, notesCtx, noteDispatchCtx } from './utils/note';
 
 import Home from './routes/Home';
-import View from './routes/View';
+import Note from './routes/Note';
 import New from './routes/New';
 
 function App() {
@@ -33,13 +35,14 @@ function App() {
               <div className="container">
                 <Switch>
                   <Route path="/" exact component={Home} />
-                  <Route path="/new" component={New} />
-                  <Route path="/note/:noteId" component={View} />
+                  <Route path="/new" exact component={New} />
+                  <Route path="/note/:noteId" component={Note} />
                   <Route component={Error404} />
                 </Switch>
               </div>
             </div>
           </main>
+          <ToastContainer />
         </noteDispatchCtx.Provider>
       </notesCtx.Provider>
     </Router>

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import logo from '../../logo.svg';
 import './style.scss';
 
-function Nav() {
+export default function Nav() {
   return (
     <nav
       className="navbar is-fixed-top"
@@ -29,5 +29,3 @@ function Nav() {
     </nav>
   );
 }
-
-export default withRouter(Nav);

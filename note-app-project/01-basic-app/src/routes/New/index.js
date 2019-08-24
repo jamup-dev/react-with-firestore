@@ -12,7 +12,9 @@ export default function New({ history }) {
       initialNote=""
       initialTitle=""
       onSave={({ title, note }) => {
+        // create a new id
         const id = uuid4();
+        // dispatch action to add to the list of notes
         dispatch({
           type: 'add',
           payload: {
@@ -21,6 +23,7 @@ export default function New({ history }) {
             note,
           },
         });
+        // navigate to the view page
         history.push(`note/${id}`);
       }}
     />
