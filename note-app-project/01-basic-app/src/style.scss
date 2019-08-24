@@ -12,6 +12,11 @@
 @import "~bulma/sass/components/menu.sass";
 @import "~bulma/sass/components/navbar.sass";
 
+/* Import the form elements we need */
+@import "~bulma/sass/form/shared.sass";
+@import "~bulma/sass/form/input-textarea.sass";
+@import "~bulma/sass/form/tools.sass";
+
 .notes-app {
 	padding-top: 52px;
 

@@ -17,14 +17,18 @@ export default function Sidebar({ links }) {
   useEffect(() => {
     const handler = e => {
       // return if came from sidebar
-      if (asideRef.current && e.target && asideRef.current.contains(e.target)) {
+      if (
+        asideRef.current &&
+        e.target &&
+        (asideRef.current === e.target || asideRef.current.contains(e.target))
+      ) {
         return;
       }
       // return if came from the button, because it has it's own listener
       if (
         buttonRef.current &&
         e.target &&
-        buttonRef.current.contains(e.target)
+        (buttonRef.current === e.target || buttonRef.current.contains(e.target))
       ) {
         return;
       }

@@ -99,3 +99,4 @@ export function useNotes() {
 }
 
 export const notesCtx = createContext();
+export const noteDispatchCtx = createContext();
