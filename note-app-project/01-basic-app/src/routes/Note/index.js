@@ -73,7 +73,7 @@ function EditNote({ noteObj }) {
           },
         });
         // show message using toast
-        toast.success('✅ Successfully updated note');
+        toast.success('✔️ Successfully updated note');
       }}
     />
   );
