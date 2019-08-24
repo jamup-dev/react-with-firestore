@@ -70,6 +70,7 @@ export default function Sidebar({ links }) {
               className="input"
               value={search}
               onChange={e => setSearch(e.target.value)}
+              placeholder="search notes..."
             />
             <span
               className="icon is-small is-left"
