@@ -5,6 +5,7 @@
   "dependencies": {
     "bulma": "^0.7.5",
     "classnames": "^2.2.6",
+    "fuzzysearch": "^1.0.3",
     "markdown-to-jsx": "^6.10.3",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",

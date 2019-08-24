@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import fuzzySearch from 'fuzzysearch';
 
 import penUrl from './pen.svg';
 import './style.scss';
@@ -9,6 +10,10 @@ import './style.scss';
 export default function Sidebar({ links }) {
   // a state for toggling the menu
   const [visible, setVisible] = useState(false);
+  // a state for managing search
+  const [search, setSearch] = useState('');
+
+  // refs for accessing DOM elements
   const asideRef = useRef();
   const buttonRef = useRef();
 
@@ -42,6 +47,14 @@ export default function Sidebar({ links }) {
     return () => document.removeEventListener('click', handler);
   }, []);
 
+  // fuzzy search and filter links
+  let filteredLinks = links;
+  if (search !== '' && typeof search === 'string') {
+    filteredLinks = links.filter(link =>
+      fuzzySearch(search.toLowerCase(), link.label.toLowerCase())
+    );
+  }
+
   return (
     <>
       <aside
@@ -50,10 +63,27 @@ export default function Sidebar({ links }) {
           'menu-is-visible': visible,
         })}
       >
+        <div className="field">
+          <div className="control has-icons-left">
+            <input
+              type="search"
+              className="input"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            <span
+              className="icon is-small is-left"
+              role="img"
+              aria-label="Search Icon"
+            >
+              🔍
+            </span>
+          </div>
+        </div>
         <p className="menu-label">Notes</p>
-        {links.length ? (
+        {filteredLinks.length ? (
           <ul className="menu-list">
-            {links.map(link => (
+            {filteredLinks.map(link => (
               <li key={link.to}>
                 <NavLink activeClassName="is-active" to={link.to}>
                   {link.label}
@@ -62,7 +92,11 @@ export default function Sidebar({ links }) {
             ))}
           </ul>
         ) : (
-          <p>No notes found. Please add some.</p>
+          <p>
+            {search
+              ? 'No notes found, try removing the filter.'
+              : 'No notes found. Please add some.'}
+          </p>
         )}
       </aside>
       <button
