@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 
 import logoUrl from '../../logo.svg';
 import './style.scss';
+import { useSession } from '../../auth/user';
+import Spinner from '../../components/Spinner';
 
 export default function Home() {
+  const session = useSession();
   return (
     <section className="section notes-home">
       <div className="notes-home__imgwrap">
@@ -16,18 +19,28 @@ export default function Home() {
       <h3 className="notes-home__subtitle subtitle is-3 has-text-grey">
         Take notes, never forget
       </h3>
-      <p className="is-size-5 has-text-grey-light">
-        Welcome to your notes. Add new notes, read and edit existing and more.
-        Synced live to all your devices.
-      </p>
-      <div className="notes-home__newnote">
-        <Link
-          to="/new"
-          className="button is-success is-large is-fullwidth is-outlined"
-        >
-          New Note
-        </Link>
-      </div>
+      {session.initializing ? (
+        <Spinner />
+      ) : session.user ? (
+        <>
+          <p className="is-size-5 has-text-grey-light">
+            Welcome to your notes. Add new notes, read and edit existing and
+            more. Synced live to all your devices.
+          </p>
+          <div className="notes-home__newnote">
+            <Link
+              to="/new"
+              className="button is-success is-large is-fullwidth is-outlined"
+            >
+              New Note
+            </Link>
+          </div>
+        </>
+      ) : (
+        <p className="is-size-4 has-text-grey">
+          Please <Link to="/signin">Sign In</Link> to continue.
+        </p>
+      )}
     </section>
   );
 }

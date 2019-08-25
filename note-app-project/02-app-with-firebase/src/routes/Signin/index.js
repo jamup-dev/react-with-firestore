@@ -17,8 +17,9 @@ export default function Signin({ history }) {
         history.push('/');
       },
     },
-    // We will display Google and Facebook as auth providers.
+    // We will display Email, Google and Facebook as auth providers.
     signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
     ],
