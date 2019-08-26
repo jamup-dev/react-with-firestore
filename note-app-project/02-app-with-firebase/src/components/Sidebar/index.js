@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import fuzzySearch from 'fuzzysearch';
 
+import { useSession } from '../../auth/user';
+import Spinner from '../Spinner';
 import penUrl from './pen.svg';
 import './style.scss';
 
-export default function Sidebar({ links }) {
+export default function Sidebar({ links, loading }) {
   // a state for toggling the menu
   const [visible, setVisible] = useState(false);
   // a state for managing search
   const [search, setSearch] = useState('');
+  // check login status for proper message
+  const session = useSession();
 
   // refs for accessing DOM elements
   const asideRef = useRef();
@@ -63,41 +67,49 @@ export default function Sidebar({ links }) {
           'menu-is-visible': visible,
         })}
       >
-        <div className="field">
-          <div className="control has-icons-left">
-            <input
-              type="search"
-              className="input"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="search notes..."
-            />
-            <span
-              className="icon is-small is-left"
-              role="img"
-              aria-label="Search Icon"
-            >
-              🔍
-            </span>
-          </div>
-        </div>
-        <p className="menu-label">Notes</p>
-        {filteredLinks.length ? (
-          <ul className="menu-list">
-            {filteredLinks.map(link => (
-              <li key={link.to}>
-                <NavLink activeClassName="is-active" to={link.to}>
-                  {link.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+        {session.user ? (
+          <>
+            <div className="field">
+              <div className="control has-icons-left">
+                <input
+                  type="search"
+                  className="input"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder="search notes..."
+                />
+                <span
+                  className="icon is-small is-left"
+                  role="img"
+                  aria-label="Search Icon"
+                >
+                  🔍
+                </span>
+              </div>
+            </div>
+            <p className="menu-label">Notes</p>
+            {loading ? (
+              <Spinner />
+            ) : filteredLinks.length ? (
+              <ul className="menu-list">
+                {filteredLinks.map(link => (
+                  <li key={link.to}>
+                    <NavLink activeClassName="is-active" to={link.to}>
+                      {link.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>
+                {search
+                  ? 'No notes found, try removing the filter.'
+                  : 'No notes found. Please add some.'}
+              </p>
+            )}
+          </>
         ) : (
-          <p>
-            {search
-              ? 'No notes found, try removing the filter.'
-              : 'No notes found. Please add some.'}
-          </p>
+          <p className="is-size-5">Please sign in to access your notes!</p>
         )}
       </aside>
       <button

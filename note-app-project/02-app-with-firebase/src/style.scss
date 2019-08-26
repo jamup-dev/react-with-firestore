@@ -34,6 +34,13 @@
 			overflow-y: auto;
 		}
 	}
+
+	&.notes-app--loading {
+		display: block;
+		.notes-app-spinner {
+			height: calc(100vh - 52px);
+		}
+	}
 }
 
 .font-rubik {

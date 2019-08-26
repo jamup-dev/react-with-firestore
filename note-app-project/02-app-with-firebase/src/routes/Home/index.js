@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import logoUrl from '../../logo.svg';
+import { ReactComponent as Logo } from '../../logo.svg';
 import './style.scss';
 import { useSession } from '../../auth/user';
 import Spinner from '../../components/Spinner';
@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <section className="section notes-home">
       <div className="notes-home__imgwrap">
-        <img src={logoUrl} className="notes-home__img" alt="Take Notes" />
+        <Logo className="notes-home__img" />
       </div>
       <h2 className="notes-home__title title is-2 has-text-black-ter">
         Notes App

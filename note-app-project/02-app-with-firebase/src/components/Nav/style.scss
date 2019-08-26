@@ -13,6 +13,13 @@
 		text-transform: uppercase;
 		font-weight: bold;
 	}
+
+	.navbar-brand {
+		svg {
+			height: 28px;
+			width: auto;
+		}
+	}
 }
 .navbar-logo-text {
 	text-transform: uppercase;

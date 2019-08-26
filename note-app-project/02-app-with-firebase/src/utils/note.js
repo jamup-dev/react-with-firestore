@@ -1,5 +1,8 @@
-import { createContext, useReducer, useEffect } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import uuid4 from 'uuid/v4';
+import firebase from './firebase';
+
+const db = firebase.firestore();
 
 const initialNotes = [
   {
@@ -41,61 +44,117 @@ export const getPosition = (haystack, id) => {
   return position;
 };
 
-function getInitialNotes() {
-  const fromLocalStorage = window.localStorage.getItem('note-app-notes');
-  if (fromLocalStorage) {
-    try {
-      return JSON.parse(fromLocalStorage);
-    } catch {
-      return initialNotes;
+export function useNotes(auth) {
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(() => {
+    // the initial state depends on whether auth is there
+    // we would be loading, only when auth has been initialized and there's
+    // a user to subscriber to
+    if (!auth.user && !auth.initializing) {
+      // if we have user, then the useEffect will be loading
+      return true;
     }
-  }
-  return initialNotes;
-}
+    // otherwise it will not
+    return false;
+  });
 
-function setNotesToLocalStorage(notes) {
-  window.localStorage.setItem('note-app-notes', JSON.stringify(notes));
-}
-
-/**
- * Reducer for managing notes.
- *
- * @param {Array} state Current notes.
- * @param {Object} action Dispatcher action.
- */
-function notesReducer(state, action) {
-  if (action.type === 'add') {
-    return [action.payload, ...state];
-  } else if (action.type === 'update') {
-    const position = getPosition(state, action.payload.id);
-    if (position === -1) {
-      throw new Error('Invalid id passed to payload during notes update.');
-    }
-    return [
-      ...state.slice(0, position),
-      {
-        id: action.payload.id,
-        title: action.payload.title,
-        note: action.payload.note,
-      },
-      ...state.slice(position + 1),
-    ];
-  } else if (action.type === 'delete') {
-    const position = getPosition(state, action.payload.id);
-    if (position === -1) {
-      throw new Error('Invalid id passed to payload during notes delete.');
-    }
-    return [...state.slice(0, position), ...state.slice(position + 1)];
-  }
-  throw new Error('Invalid type passed to action.');
-}
-
-export function useNotes() {
-  const [notes, dispatch] = useReducer(notesReducer, null, getInitialNotes);
+  // set sync to notes during mount or auth change
   useEffect(() => {
-    setNotesToLocalStorage(notes);
-  }, [notes]);
-  return [notes, dispatch];
+    // don't do any effect if auth hasn't found a user
+    if (!auth.user) {
+      // but do reset the notes to empty
+      setNotes([]);
+      return;
+    }
+
+    // a new auth has landed, so we need to load it via onSnapshot
+    setLoading(true);
+
+    // get the docRef
+    const docRef = db.doc(`notes/${auth.user.uid}`);
+
+    // add event listener on change
+    const unsubscribe = docRef.onSnapshot(doc => {
+      // if data exists on the firestore, then simply update our local-state
+      if (doc && doc.exists) {
+        const data = doc.data();
+        setNotes(data.notes);
+      } else {
+        // no data exists on our server, so add the default one
+        docRef
+          .set({
+            notes: initialNotes,
+          })
+          .then(() => {
+            console.log('Initial save successful');
+          })
+          .catch(error => {
+            console.log('Error', error);
+          });
+      }
+      // in any case, we have set the notes, so we are no longer loading
+      // if it was already false, then react will not re-render anyway
+      setLoading(false);
+    });
+    // return cleanup function
+    // this will be called when auth changes
+    return () => {
+      setLoading(false);
+      unsubscribe();
+    };
+  }, [auth]);
+
+  // now create our custom dispatcher function to do the operation on firestore
+  // instead of doing this on our state.
+  // when we do the operation on firestore, it will update our state thanks to
+  // the useEffect we've written before.
+  const dispatch = action => {
+    // again don't do anything if isn't authenticated
+    if (!auth.user) {
+      return;
+    }
+
+    // calculate the new notes based on action
+    let newNotes;
+    if (action.type === 'add') {
+      newNotes = [action.payload, ...notes];
+    } else if (action.type === 'update') {
+      const position = getPosition(notes, action.payload.id);
+      if (position === -1) {
+        throw new Error('Invalid id passed to payload during notes update.');
+      }
+      newNotes = [
+        ...notes.slice(0, position),
+        {
+          id: action.payload.id,
+          title: action.payload.title,
+          note: action.payload.note,
+        },
+        ...notes.slice(position + 1),
+      ];
+    } else if (action.type === 'delete') {
+      const position = getPosition(notes, action.payload.id);
+      if (position === -1) {
+        throw new Error('Invalid id passed to payload during notes delete.');
+      }
+      newNotes = [...notes.slice(0, position), ...notes.slice(position + 1)];
+    }
+
+    // update to firestore
+    const docRef = db.doc(`notes/${auth.user.uid}`);
+    docRef
+      .set({
+        notes: newNotes,
+      })
+      .then(() => {
+        console.log('Successfully saved');
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  };
+
+  return [notes, dispatch, loading];
 }
 
 export const notesCtx = createContext();

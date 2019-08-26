@@ -4,8 +4,9 @@ To understand what is happening, go to [this link](https://firebase.google.com/d
 service cloud.firestore {
   match /databases/{database}/documents {
     // Allow only authenticated content owners access
-    match /notes/{userId}/{documents=**} {
-      allow read, write: if request.auth.uid == userID
+    match /notes/{userId} {
+      allow read, update, delete: if request.auth.uid == userId;
+      allow create: if request.auth.uid != null;
     }
   }
 }

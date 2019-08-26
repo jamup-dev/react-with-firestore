@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import logo from '../../logo.svg';
+import { ReactComponent as Logo } from '../../logo.svg';
 import './style.scss';
 import { useSession } from '../../auth/user';
 import firebase from '../../utils/firebase';
 import Spinner from '../Spinner';
 
-export default function Nav() {
+function Nav({ history }) {
   const session = useSession();
   return (
     <nav
@@ -19,7 +19,7 @@ export default function Nav() {
       <div className="container">
         <div className="navbar-brand">
           <Link className="navbar-item" to="/">
-            <img src={logo} height="28" alt="Notes App" />
+            <Logo />
             <span className="navbar-logo-text">Notes</span>
           </Link>
         </div>
@@ -38,6 +38,7 @@ export default function Nav() {
                     onClick={e => {
                       e.preventDefault();
                       firebase.auth().signOut();
+                      history.push('/');
                       toast.success('Successfully logged out');
                     }}
                   >
@@ -56,3 +57,5 @@ export default function Nav() {
     </nav>
   );
 }
+
+export default withRouter(Nav);
