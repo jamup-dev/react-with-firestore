@@ -96,6 +96,14 @@ git pull origin
 For more information check [this tutorial](https://guides.github.com/introduction/git-handbook/)
 or [this cheat sheet](https://github.com/joshnh/Git-Commands).
 
+### Using VIM
+
+- Press `i`.
+- Write down your commit.
+- Get back to the command mode by pressing `ESC`.
+- In command mode, write `:wq` and press enter.
+- If at any point, we want to quit, then go to command mode, and we write `:cq`.
+
 ## Basic UNIX commands
 
 Remember to use Git Bash on Windows. Linux or OSX users should be good with
