@@ -184,6 +184,8 @@ yarn add systeminformation
 Create a file os.js and write the following.
 
 ```js
+const si = require('systeminformation');
+
 si.cpu().then(cpuData => {
   console.log('CPU DATA');
   console.log('--------');
