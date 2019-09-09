@@ -1,3 +1,7 @@
+# Development directory
+live-class/*
+!live-class/.gitkeep
+
 # Logs
 logs
 *.log
@@ -132,7 +136,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
