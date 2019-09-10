@@ -10,19 +10,30 @@
 // Defining a function
 // Parsetime
 function parsetimeFunction() {
-	return 1;
+  return 1;
 }
-parsetimeFunction();
+console.log(parsetimeFunction());
+
+// 🎙️ Fun thing about parse time function is, they are visible even before
+// 🎙️ they are actually written. Can you tell me why?
+
+console.log(anotherParseTimeFunction());
+function anotherParseTimeFunction() {
+  return 2;
+}
 
 // ✅ Function parameters.
 
-// 🎙️ Like any langauge functions can have parameters
+// 🎙️ Like any language functions can have parameters
 // 🎙️ Also with default value.
 function sayMyName(firstName, lastName, middleName = '') {
-	console.log(firstName, middleName);
+  console.log(firstName, middleName);
 }
+// 🎙️ When we are calling it, we say we are passing arguments to the
+// 🎙️ function. Here 'Ross' and 'Geller'
 sayMyName('Ross', 'Geller');
 sayMyName('Chandler', 'Bing', 'Muriel');
+// 🎙️ check this https://twitter.com/wesbos/status/1105907924088565762
 
 // ✅ Named and anonymous function expressions.
 
@@ -34,7 +45,7 @@ sayMyName('Chandler', 'Bing', 'Muriel');
 // 🎙️ We can name the function or we can keep it anonymous.
 // Assigning a function to a variable
 const runtimeFunction = function() {
-	return 1;
+  return 1;
 };
 console.log(runtimeFunction());
 
@@ -47,7 +58,7 @@ console.log(runtimeFunction());
 // Always runtime and anonymous
 // eslint-disable-next-line arrow-body-style
 const coolFunc = () => {
-	return 1;
+  return 1;
 };
 
 // 🎙️ So basically we don't write `function`, we put arguments inside parens
@@ -68,19 +79,19 @@ console.log(divide(10, 3));
 // 🎙️ We don't call a constructor function directly, rather we instantiate with `new` keyword.
 // 🎙️ Programmatically we can prevent a constructor function being called directly.
 // 🎙️ When we instantiate a constructor function, it creates an Object
-// 🎙️ Inside the constructor function and inside all methods of the function prototype
+// 🎙️ inside the constructor function. Within all methods of the function prototype
 // 🎙️ `this` refers to the object we have created (ie, the instance object)
 function Name(name) {
-	// Prevent direct calling of this function
-	if (!(this instanceof Name)) {
-		throw new TypeError('Name can only be instantiated');
-	}
+  // Prevent direct calling of this function
+  if (!(this instanceof Name)) {
+    throw new TypeError('Name can only be instantiated');
+  }
 
-	// ✅ Scope of this.
+  // ✅ Scope of this.
 
-	// 🎙️ Notice `this` is not the function itself, rather the Object
-	// 🎙️ created when we call `new Name('...')`.
-	this.name = name;
+  // 🎙️ Notice `this` is not the function itself, rather the Object
+  // 🎙️ created when we call `new Name('...')`.
+  this.name = name;
 }
 
 // ✅ Prototypal inheritance.
@@ -90,12 +101,12 @@ function Name(name) {
 // 🎙️ And they have, what we call, prototype property.
 // 🎙️ Now each prototype property does have it's own prototype property and we call this thing prototype chain.
 Name.prototype = {
-	getFirstName() {
-		return this.name.split(' ')[0];
-	},
-	getLastName() {
-		return this.name.split(' ')[1];
-	},
+  getFirstName() {
+    return this.name.split(' ')[0];
+  },
+  getLastName() {
+    return this.name.split(' ')[1];
+  },
 };
 const swas = new Name('Swashata Ghosh');
 // 🎙️ To check if some object has a property as it's own
@@ -130,12 +141,12 @@ console.log(swas.__proto__.__proto__.__proto__);
 // 🎙️ Well because all people have name
 // Prorotypal inheritence
 function Person(name, age, gender) {
-	if (!(this instanceof Person)) {
-		throw new TypeError('Name can only be instantiated');
-	}
-	this.name = name;
-	this.age = age;
-	this.gender = gender;
+  if (!(this instanceof Person)) {
+    throw new TypeError('Name can only be instantiated');
+  }
+  this.name = name;
+  this.age = age;
+  this.gender = gender;
 }
 
 // 🎙️ Here we use Object.assign to create a new object
@@ -144,15 +155,15 @@ function Person(name, age, gender) {
 // 🎙️ It doesn't matter how you merge Name.prototype to Person.prototype
 // 🎙️ It's only important that you do.
 Person.prototype = Object.assign({}, Name.prototype, {
-	getAge() {
-		return this.age;
-	},
-	getGender() {
-		return this.gender;
-	},
-	sayHi() {
-		return `Hi, I am ${this.getFirstName()}, a ${this.getAge()} old ${this.getGender()}`;
-	},
+  getAge() {
+    return this.age;
+  },
+  getGender() {
+    return this.gender;
+  },
+  sayHi() {
+    return `Hi, I am ${this.getFirstName()}, a ${this.getAge()} old ${this.getGender()}`;
+  },
 });
 
 const me = new Person('Swashata Ghosh', 28, 'male');
@@ -168,15 +179,15 @@ console.log(Object.getOwnPropertyDescriptor(me, 'getAge'));
 
 // Change prototype of Name in runtime
 Name.prototype.yell = function() {
-	return this.name.toUpperCase();
+  return this.name.toUpperCase();
 };
 console.log(swas.yell());
 
 try {
-	console.log(me.yell());
+  console.log(me.yell());
 } catch (e) {
-	// It fails
-	console.log(e);
+  // It fails
+  console.log(e);
 }
 
 // 🎙️ Now this can be avoided by assigning an object to Person's prototype
@@ -191,20 +202,20 @@ try {
 
 // 🎙️ Let's create a rectangle constructor function
 function Reactangle(height, width) {
-	this.height = height;
-	this.width = width;
+  this.height = height;
+  this.width = width;
 }
 // 🎙️ Let's create some prototype for Reactangle, an area method
 Reactangle.prototype = {
-	area() {
-		return this.height * this.width;
-	},
+  area() {
+    return this.height * this.width;
+  },
 };
 
 // 🎙️ Let's create a Square function which we intend to inherit from Reactangle
 function Square(length) {
-	this.height = length;
-	this.width = length;
+  this.height = length;
+  this.width = length;
 }
 // 🎙️ So we use Object.create to assign an empty object as Square.prototype
 // 🎙️ But this empty object has React.prototype as its prototype
@@ -218,7 +229,7 @@ console.log(Reactangle.prototype.isPrototypeOf(Square.prototype));
 
 // 🎙️ We now add new methods to the prototype like
 Square.prototype.diagonal = function() {
-	return +(Math.sqrt(2) * this.width).toFixed(2);
+  return +(Math.sqrt(2) * this.width).toFixed(2);
 };
 
 const shape = new Square(10);
@@ -230,7 +241,7 @@ console.log(shape.area());
 // 🎙️ For our purpose, if we try to add something to Reactangle Prototype
 // 🎙️ Then Square should inherit it
 Reactangle.prototype.perimeter = function() {
-	return 2 * (this.height + this.width);
+  return 2 * (this.height + this.width);
 };
 
 // 🎙️ So now our Square also has perimeter
@@ -248,16 +259,16 @@ console.log(shape.perimeter());
 // 🎙️ Say we have a Staff in a company
 function Staff() {}
 Staff.prototype = {
-	init(fName, lName) {
-		this.fName = fName;
-		this.lName = lName;
-	},
-	getName() {
-		return `${this.fName} ${this.lName}`;
-	},
-	checkIn() {
-		return 'checking in';
-	},
+  init(fName, lName) {
+    this.fName = fName;
+    this.lName = lName;
+  },
+  getName() {
+    return `${this.fName} ${this.lName}`;
+  },
+  checkIn() {
+    return 'checking in';
+  },
 };
 // 🎙️ Now we also have manager, who are also staff
 function Manager() {}
@@ -271,7 +282,7 @@ Manager.prototype = new Staff();
 // 🎙️ Now only managers can update the project status
 // 🎙️ Right?
 Manager.prototype.updateProjectStatus = function() {
-	return 'updating project status';
+  return 'updating project status';
 };
 
 // 🎙️ Let's take them for a test drive
@@ -283,7 +294,7 @@ console.log(mrMayur.updateProjectStatus());
 
 // 🎙️ And we can have runtime prototype methods
 Staff.prototype.checkOut = function() {
-	return 'checking out';
+  return 'checking out';
 };
 
 console.log(mrMayur.checkOut());
@@ -307,48 +318,48 @@ console.log(mrMayur.checkOut());
 // 🎙️ 2. They don't have `this`. `this` simply refers to the outer block.
 
 function IAMGroot() {
-	this.name = 'Groot';
-	this.actor = 'Vin Diesel';
-	// this works, since the function expression is bound to Object's
-	// property or prototype, this refers to the object itself
-	this.sayActor = function sayActor() {
-		return this.actor;
-	};
+  this.name = 'Groot';
+  this.actor = 'Vin Diesel';
+  // this works, since the function expression is bound to Object's
+  // property or prototype, this refers to the object itself
+  this.sayActor = function sayActor() {
+    return this.actor;
+  };
 
-	// 🎙️ But this does not
-	// 🎙️ Notice we have an utility function inside our function expression
-	this.sayActorFirstName = function() {
-		// 🎙️ This utility function's `this` depends on how we call it.
-		const someUtil = function() {
-			console.log(this);
-			return this.actor.split(' ')[0];
-		};
-		// 🎙️ Since we are calling it directly
-		// 🎙️ And this is not bound to anything
-		// 🎙️ `this` would be undefined for the utility function.
-		return someUtil();
-	};
+  // 🎙️ But this does not
+  // 🎙️ Notice we have an utility function inside our function expression
+  this.sayActorFirstName = function() {
+    // 🎙️ This utility function's `this` depends on how we call it.
+    const someUtil = function() {
+      console.log(this);
+      return this.actor.split(' ')[0];
+    };
+    // 🎙️ Since we are calling it directly
+    // 🎙️ And this is not bound to anything
+    // 🎙️ `this` would be undefined for the utility function.
+    return someUtil();
+  };
 
-	// 🎙️ Now this approach with arrow function will work
-	this.sayActorLastName = function() {
-		// 🎙️ Notice we are using an arrow function expression here
-		// 🎙️ As I've said before, it is not just another anonymous function expression
-		// 🎙️ Arrow function doesn't have `this` and `this` refers to the outer block
-		const someUtil = () => {
-			// 🎙️ So `this` is the `this` of sayActorLastName
-			// 🎙️ ie, The instance object we create.
-			console.log(this);
-			return this.actor.split(' ')[1];
-		};
-		return someUtil();
-	};
+  // 🎙️ Now this approach with arrow function will work
+  this.sayActorLastName = function() {
+    // 🎙️ Notice we are using an arrow function expression here
+    // 🎙️ As I've said before, it is not just another anonymous function expression
+    // 🎙️ Arrow function doesn't have `this` and `this` refers to the outer block
+    const someUtil = () => {
+      // 🎙️ So `this` is the `this` of sayActorLastName
+      // 🎙️ ie, The instance object we create.
+      console.log(this);
+      return this.actor.split(' ')[1];
+    };
+    return someUtil();
+  };
 }
 const groot = new IAMGroot();
 console.log(groot.sayActor());
 try {
-	console.log(groot.sayActorFirstName());
+  console.log(groot.sayActorFirstName());
 } catch (e) {
-	console.log(e);
+  console.log(e);
 }
 console.log(groot.sayActorLastName());
 
@@ -367,12 +378,12 @@ console.log(groot.sayActorLastName());
 // 🎙️ 3. When we are expecting to call it with `.call` signature.
 
 function sayName(salutation, lName) {
-	return `${salutation} ${this.fName} ${lName}`;
+  return `${salutation} ${this.fName} ${lName}`;
 }
 try {
-	console.log(sayName('Mr', 'Ghosh'));
+  console.log(sayName('Mr', 'Ghosh'));
 } catch (e) {
-	console.log(e);
+  console.log(e);
 }
 
 // ✅ Changing `this` of functions.
@@ -382,7 +393,7 @@ try {
 
 // 🎙️ Let's create an object ourselves and forcibly use it as `this` of sayName
 const mySelf = {
-	fName: 'Swashata',
+  fName: 'Swashata',
 };
 // 🎙️ .call takes variable arguments
 console.log(sayName.call(mySelf, 'Mr.', 'Ghosh'));
@@ -405,7 +416,7 @@ console.log(boundedSayName.call({}, 'Mr', 'Ghosh'));
 // 🎙️ when defining (declaring or writing function expression)
 // 🎙️ To store a variable number of arguments
 function restSomeStuff(...stuff) {
-	return stuff;
+  return stuff;
 }
 console.log(restSomeStuff(1, 2, 3, '4'));
 
@@ -416,10 +427,10 @@ console.log(restSomeStuff(1, 2, 3, '4'));
 // 🎙️ To convert arrays or array like objects (iterables)
 // 🎙️ into separate function arguments.
 function spreadSomeStuff(a, b, c, ...rest) {
-	console.log(a);
-	console.log(b);
-	console.log(c);
-	console.log(rest);
+  console.log(a);
+  console.log(b);
+  console.log(c);
+  console.log(rest);
 }
 const forSpread = ['2', '4', true, 'function does not care', 'or does it??'];
 spreadSomeStuff(...forSpread);
@@ -434,13 +445,13 @@ spreadSomeStuff('2', '4', true, 'function does not care', 'or does it?');
 
 // 🎙️ Example: Create a utility function
 function greaterThan(num) {
-	return function(val) {
-		return val > num;
-	};
-	// 🎙️ We can and probably should use arrow function instead
-	// 🎙️ Much more precise, but I don't want to burn your head right away
-	// 🎙️ I am planning to burn it like 1 week later.
-	// return val => val > num;
+  return function(val) {
+    return val > num;
+  };
+  // 🎙️ We can and probably should use arrow function instead
+  // 🎙️ Much more precise, but I don't want to burn your head right away
+  // 🎙️ I am planning to burn it like 1 week later.
+  // return val => val > num;
 }
 
 const greaterThan10 = greaterThan(10);
@@ -449,12 +460,12 @@ console.log(greaterThan10(9));
 
 // 🎙️ Example: Modify functionality
 function noisy(fn) {
-	return function(...args) {
-		console.log(`Called with ${JSON.stringify(args)}`);
-		const val = fn(...args);
-		console.log(`Returning value ${JSON.stringify(val)}`);
-		return val;
-	};
+  return function(...args) {
+    console.log(`Called with ${JSON.stringify(args)}`);
+    const val = fn(...args);
+    console.log(`Returning value ${JSON.stringify(val)}`);
+    return val;
+  };
 }
 const noisyMin = noisy(Math.min);
 console.log(noisyMin(1, 3, -1));
@@ -463,29 +474,29 @@ console.log(noisyMin(1, 3, -1));
 
 // We have set of users
 const users = [
-	{ name: 'Jeff', age: 14 },
-	{ name: 'Jack', age: 19 },
-	{ name: 'Milady', age: 22 },
+  { name: 'Jeff', age: 14 },
+  { name: 'Jack', age: 19 },
+  { name: 'Milady', age: 22 },
 ];
 
 // 🎙️ We have an utility function to get an array of user names
 function getUserName(u) {
-	return u.map(user => user.name);
+  return u.map(user => user.name);
 }
 
 // 🎙️ We have an utility function to get users whose age is greater than 18
 function getUserWhoseAgeIsGreaterThan18(u) {
-	return u.filter(user => user.age > 18);
+  return u.filter(user => user.age > 18);
 }
 
 // 🎙️ Another utility to compose multiple functions
 const compose = (...functions) => args =>
-	functions.reduceRight((arg, fn) => fn(arg), args);
+  functions.reduceRight((arg, fn) => fn(arg), args);
 
 // Create a compose function based on two utilities
 const getUserNameWhoseAgeIsGreaterThan18 = compose(
-	getUserName,
-	getUserWhoseAgeIsGreaterThan18
+  getUserName,
+  getUserWhoseAgeIsGreaterThan18
 );
 console.log(getUserNameWhoseAgeIsGreaterThan18(users));
 

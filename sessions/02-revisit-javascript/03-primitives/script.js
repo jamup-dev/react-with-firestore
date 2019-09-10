@@ -50,6 +50,9 @@ console.log(Number(false));
 console.log(Number(true));
 // Works good for primitives only
 console.log(Number({ foo: true }));
+// 🎙️ How do we check if something is NaN?
+// using Number.isNaN function
+console.log(Number.isNaN(Number('hello')));
 
 // ✅ String.
 
@@ -91,7 +94,7 @@ console.log([...aString]);
 console.log(aString[Symbol.iterator]);
 // 🎙️ So we can use for..of loop against it
 for (const ch of aString) {
-	console.log(ch);
+  console.log(ch);
 }
 // 🎙️ for..of is a new JavaScript language feature
 // 🎙️ that lets us iterate any object which has the @@iterate method.
@@ -107,9 +110,9 @@ console.log(String(true));
 
 // 🎙️ Works good for primitives only
 console.log(
-	String({
-		foo: 'bar',
-	})
+  String({
+    foo: 'bar',
+  })
 );
 
 // ✅ Boolean.
@@ -160,10 +163,10 @@ console.log(Symbol('hello') === Symbol('hello'));
 
 // 🎙️ Basic usage of Symbol is as object property.
 const mySecretiveObj = {
-	fName: 'Swashata',
-	lName: 'Ghosh',
-	[symOne]: 'Dragons',
-	[symTwo]: 'Shenanigans',
+  fName: 'Swashata',
+  lName: 'Ghosh',
+  [symOne]: 'Dragons',
+  [symTwo]: 'Shenanigans',
 };
 // 🎙️ If we console log the object we get the Symbol properties
 console.log(mySecretiveObj);
@@ -177,9 +180,9 @@ console.log(Object.getOwnPropertySymbols(mySecretiveObj)[0] === symOne);
 
 // 🎙️ Symbols can not be cast
 try {
-	console.log(Number(Symbol('10')));
+  console.log(Number(Symbol('10')));
 } catch (e) {
-	console.log(e);
+  console.log(e);
 }
 
 // 🎙️ Symbol can not be used to cast, like Boolean or Number or String
@@ -234,6 +237,6 @@ console.log(undefined == false);
 let value;
 console.log(value);
 if (value === null || value === undefined) {
-	value = 10;
+  value = 10;
 }
 console.log(value);

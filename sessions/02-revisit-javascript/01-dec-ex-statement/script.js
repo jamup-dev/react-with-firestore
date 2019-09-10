@@ -46,7 +46,7 @@ func('hello', 'world');
 
 //  🎙️ Or a named function expression
 (function foo() {
-	// foo is visible only here
+  // foo is visible only here
 });
 // 🎙️ The thing about function expression is, it is only visible to itself
 // 🎙️ and not the outer world.
@@ -59,9 +59,9 @@ console.log(typeof foo);
 // 🎙️ Notice that the function is recursive
 // 🎙️ And it is visible inside it, ie, me is visible inside me.
 const factorial = function me(x) {
-	// me is visible here
-	console.log(typeof me);
-	return x <= 1 ? 1 : x * me(x - 1);
+  // me is visible here
+  console.log(typeof me);
+  return x <= 1 ? 1 : x * me(x - 1);
 };
 // 🎙️ but me is not visible here
 console.log(typeof me);
@@ -77,16 +77,16 @@ console.log(factorial(1));
  */
 
 if (a) {
-	console.log(b);
+  console.log(b);
 }
 for (let i = 0; i < b; i++) {
-	console.log(a);
+  console.log(a);
 }
 
 // 🎙️ Wherever JavaScript expects a statement, you can also write an expression.
 // 🎙️ We could go ahead and write here a statement
 if (factorial(2) > 2) {
-	console.log('Huh!');
+  console.log('Huh!');
 }
 // 🎙️ Or we could just write an expression
 const ourFactorial = factorial(12);
@@ -95,11 +95,28 @@ const ourFactorial = factorial(12);
 // factorial(if(true) { /*something*/ });
 // 🎙️ Above is syntax error
 
+// ✅ Ternary Expressions
+// 🎙️ In case we need to have conditional expression we can use the ternary
+// 🎙️ operator.
+// 🎙️ It starts with condition on left hand side of `?`. Then comes two parts:
+// 🎙️ First the value if the condition is true, then `:` and then the value
+// 🎙️ if condition is false.
+const dog = 'Scooby';
+const likesToEat = dog === 'Scooby' ? 'Chicken' : 'Egg';
+// 🎙️ here the part `dog === 'Scooby' ? 'Chicken' : 'Egg'` is a ternary
+// 🎙️ expression. Why is it needed?
+// 🎙️ By JS language specification, when we are declaring a variable,
+// 🎙️ then expression must follow. So as our rule before, we can not have a
+// 🎙️ statement instead. So we couldn't do
+// const likesToEatFromStatement = if (dog === 'Scooby') { 'Chicken' } else { 'Egg' }
+//                                 ^ SyntaxError: Unexpected token (111:32)
+// 🎙️ Above is syntax error.
+
 // ✅ Immediately invoked function expression (iffe).
 
 // 🎙️ Only a function expression can be invoked immediately, not a function declaration
 (function() {
-	// do something
+  // do something
 })(); // okay
 
 // 🎙️ not okay
