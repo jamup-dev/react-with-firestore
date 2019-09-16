@@ -594,7 +594,7 @@ console.log(data.includes(micah, 6));
 // 🎙️ implemented by the callback function
 
 // 🎙️ The callback function gets the item as parameter
-// 🎙️ The condition passes is the function returns truthy
+// 🎙️ The condition passes if the function returns truthy
 
 // 🎙️ Let's see if at-least some user has joined in past six months
 (function() {

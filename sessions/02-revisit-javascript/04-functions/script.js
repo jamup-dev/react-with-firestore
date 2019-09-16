@@ -363,6 +363,45 @@ try {
 }
 console.log(groot.sayActorLastName());
 
+//
+
+function IAmGroot() {
+  this.name = 'Groot';
+  this.actor = 'Vin Diesel';
+
+  // this.sayName = function() {
+  //   return 'I am ' + this.name;
+  // };
+
+  this.sayName = () => {
+    return 'I am ' + this.name;
+  };
+}
+
+const groot = new IAmGroot();
+console.log(groot.sayName());
+
+const grootSayName = groot.sayName;
+console.log(grootSayName());
+
+function Counter(id) {
+  this.count = 0;
+  this.node = document.querySelector('#' + id);
+  this.handleCount = e => {
+    console.log(this);
+    e.preventDefault();
+    this.count = this.count + 1;
+    this.node.innerHTML = this.count;
+  };
+
+  this.node.addEventListener('click', this.handleCount);
+}
+
+new Counter('counter');
+new Counter('counter1');
+new Counter('counter2');
+new Counter('counter3');
+
 // ✅ When to use arrow function.
 
 // 🎙️ So when to use arrow functions?
