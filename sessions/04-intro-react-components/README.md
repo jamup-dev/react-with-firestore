@@ -6,6 +6,7 @@ write components). Read the following code in order
 1. `src/index.1.js` - Concepts of React Components.
 2. `src/index.2.js` - Concepts of JSX.
 3. `src/index.3.js` - Concept of Nested Components, props, events and handlers.
+4. `src/index.4.js` - Events and handlers on all form elements.
 
 ---
 
