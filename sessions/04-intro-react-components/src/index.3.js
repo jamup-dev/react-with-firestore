@@ -71,6 +71,9 @@ function App() {
       <Button onClick={increase} radius="adjr">
         +
       </Button>
+      <p className="text-gray-400 text-sm my-2 italic">
+        Current count is: {count}
+      </p>
     </div>
   );
   console.log(ui);

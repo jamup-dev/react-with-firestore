@@ -129,7 +129,7 @@ Edit `package.json` file and put the scripts part
 ```
 
 Finally create a directory `dist` and move `index.html` file inside it. Change
-the `<script>` reference from `"./src/index.js"` to `"./dist/main.js"`.
+the `<script>` reference from `"./src/index.js"` to `"./main.js"`.
 
 ## 4. Install Dev Server
 
