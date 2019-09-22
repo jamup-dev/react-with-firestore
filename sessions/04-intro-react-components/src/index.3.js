@@ -49,6 +49,7 @@ function Title({ children, className = '' }) {
 // Our primary App component
 function App() {
   const [exampleState, setExampleState] = React.useState('state 1');
+  const [clickedTimes, setClickedTimes] = React.useState(0);
 
   const [count, setCount] = React.useState(0);
   const increase = () => setCount(count + 1);
@@ -82,6 +83,14 @@ function App() {
         }}
       >
         Set Value 2
+      </Button>
+      <Button
+        className="block w-full justify-center my-5"
+        onClick={() => {
+          setClickedTimes(clickedTimes + 1);
+        }}
+      >
+        You've clicked me {clickedTimes} time{clickedTimes === 1 ? '' : 's'}
       </Button>
       <Title className="mt-5">A Counter App</Title>
       <Button onClick={decrease} radius="adjl">

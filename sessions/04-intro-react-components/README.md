@@ -8,6 +8,13 @@ write components). Read the following code in order
 3. `src/index.3.js` - Concept of Nested Components, props, events and handlers.
 4. `src/index.4.js` - Events and handlers on all form elements.
 
+### Good to know
+
+- [tailwindcss](https://tailwindcss.com/).
+- [React Forms](https://reactjs.org/docs/forms.html).
+- [Uncontrolled components](https://reactjs.org/docs/uncontrolled-components.html).
+- [Intro to React Hooks](https://reactjs.org/docs/hooks-intro.html).
+
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
