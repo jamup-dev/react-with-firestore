@@ -1,0 +1,22 @@
+{
+  "name": "exercise",
+  "version": "1.0.0",
+  "description": "Exercises",
+  "main": "index.js",
+  "author": "Swashata Ghosh",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:01": "jest 1 --watchAll",
+    "test:02": "jest 2 --watchAll",
+    "test:03": "jest 3 --watchAll",
+    "test:04": "jest 4 --watchAll"
+  }
+}
