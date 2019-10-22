@@ -1,0 +1,27 @@
+// Import colors utilities
+@import '../../utils/theme';
+
+
+.todo-app-box {
+	margin: 0 auto;
+	max-width: 480px;
+	padding: #{$gutter}px;
+	background-color: $appBackgroundColor;
+
+
+	// Add box shadow for large screens
+	@media screen and (min-width: 768px) {
+		box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56);
+		margin: #{$gutter * 2}px auto;
+		border-radius: 10px;
+	}
+
+	.todo-app-box__title {
+		margin: 0 0 #{$gutter}px 0;
+		padding: 0;
+		text-transform: uppercase;
+		color: $headingColor;
+		font-weight: 300;
+		font-size: 1.5rem;
+	}
+}

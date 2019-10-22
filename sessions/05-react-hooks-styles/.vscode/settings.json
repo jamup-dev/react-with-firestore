@@ -1,0 +1,11 @@
+{
+	"[javascriptreact]": {
+		"editor.formatOnSave": true
+	},
+	"[javascript]": {
+		"editor.formatOnSave": true
+	},
+	"[markdown]": {
+		"editor.formatOnSave": true
+	}
+}

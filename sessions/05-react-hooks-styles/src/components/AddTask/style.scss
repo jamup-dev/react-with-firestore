@@ -1,0 +1,77 @@
+@import '../../utils/theme';
+
+.add-task {
+	margin: 0 0 #{$gutter}px 0;
+	position: relative;
+	height: 60px;
+	overflow: hidden;
+	border-top-right-radius: 30px;
+	border-bottom-right-radius: 30px;
+
+	.add-task__input {
+		width: 100%;
+		padding: 0 60px 0 #{$gutter}px;
+		height: 60px;
+		border: 2px solid $backgroundColor;
+		font-size: 1.2rem;
+		line-height: 60px;
+		background-color: $backgroundColor;
+		border-radius: 30px;
+		transition: background-color $transition, border-color $transition;
+		color: $textColor;
+
+		&:hover {
+			background-color: darken($backgroundColor, 5%);
+			border-color: darken($backgroundColor, 5%);
+
+			~ .add-task__button {
+				box-shadow: 0 0 0 4px #fff, 0 0 0 6px darken($backgroundColor, 5%);
+			}
+		}
+
+		&:focus,
+		&:active {
+			background-color: $appBackgroundColor;
+			border-color: darken($backgroundColor, 5%);
+			outline: 0 none;
+
+			~ .add-task__button {
+				box-shadow: 0 0 0 4px #fff, 0 0 0 6px darken($backgroundColor, 5%);
+			}
+		}
+	}
+
+	.add-task__button {
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 60px;
+		width: 60px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: lighten($successColor, 10%);
+		color: #fff;
+		cursor: pointer;
+		border-radius: 30px;
+		box-shadow: 0 0 0 4px #fff, 0 0 0 6px $backgroundColor;
+		transition: background-color $transition, box-shadow $transition;
+		border: 0 none;
+
+		svg {
+			width: 1rem;
+			height: 1rem;
+			transition: transform $transition;
+		}
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: $successColor;
+			outline: none;
+			svg {
+				transform: scale(1.5, 1.5) rotate(360deg);
+			}
+		}
+	}
+}
