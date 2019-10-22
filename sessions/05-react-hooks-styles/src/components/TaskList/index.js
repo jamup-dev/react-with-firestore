@@ -52,9 +52,14 @@ export default function TaskList(props) {
 
   return (
     <div className="task-list">
-      {filteredTasks.map(ft => (
-        <MemoizedTask key={ft.id} {...ft} />
-      ))}
+      {filteredTasks.length ? (
+        filteredTasks.map(ft => <MemoizedTask key={ft.id} {...ft} />)
+      ) : (
+        <div className="task-list__notice">
+          No tasks yet{filter === 'all' ? '' : ' for this filter'}, kindly add
+          some.
+        </div>
+      )}
     </div>
   );
 }

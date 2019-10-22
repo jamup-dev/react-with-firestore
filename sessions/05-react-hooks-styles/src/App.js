@@ -76,14 +76,28 @@ function taskReducer(state, action) {
   return state;
 }
 
+function retrieveTasksFromLocalStorage(initialTasks) {
+  try {
+    const tasks = JSON.parse(window.localStorage.getItem('tasks-app'));
+    if (!tasks) {
+      return initialTasks;
+    }
+    return tasks;
+  } catch (e) {
+    return initialTasks;
+  }
+}
+
 function App() {
   // Using useReducer hook create a state and a dispatcher function
-  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
-
-  // useState hook to create a current filter
-  const [filter, setFilter] = useState('all');
+  const [tasks, dispatch] = useReducer(
+    taskReducer,
+    initialTasks,
+    retrieveTasksFromLocalStorage
+  );
 
   // Add a useEffect to dynamically change the page title
+  // and persist the tasks to localStorage
   useEffect(() => {
     const tasksToDo = tasks.reduce((acc, task) => {
       if (task.done) {
@@ -96,7 +110,11 @@ function App() {
     } else {
       document.title = `Task Application`;
     }
+    window.localStorage.setItem('tasks-app', JSON.stringify(tasks));
   }, [tasks]);
+
+  // useState hook to create a current filter
+  const [filter, setFilter] = useState('all');
 
   // We will pass the tasks state and dispatch function with the help of
   // contexts
