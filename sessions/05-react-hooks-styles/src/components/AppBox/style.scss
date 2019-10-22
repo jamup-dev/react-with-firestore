@@ -3,17 +3,17 @@
 
 
 .todo-app-box {
-	margin: 0 auto;
-	max-width: 480px;
+	margin: #{$gutter / 3}px;
 	padding: #{$gutter}px;
 	background-color: $appBackgroundColor;
-
+	box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.19);
+	border-radius: 10px;
 
 	// Add box shadow for large screens
-	@media screen and (min-width: 768px) {
+	@media screen and (min-width: 660px) {
 		box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56);
 		margin: #{$gutter * 2}px auto;
-		border-radius: 10px;
+		max-width: 600px;
 	}
 
 	.todo-app-box__title {

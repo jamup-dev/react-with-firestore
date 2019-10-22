@@ -1,0 +1,75 @@
+@import '../../utils/theme';
+
+.task-list {
+	min-height: calc(100vh - 292px);
+	@media screen and (min-width: 660px) {
+		min-height: calc(100vh - 392px);
+	}
+	.task-list__item {
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		margin: 0 0 8px 0;
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+		padding: 8px;
+		border-radius: 100px;
+		background-color: transparent;
+		transition: background-color $transition;
+
+		&:hover {
+			background-color: $backgroundColor;
+		}
+	}
+
+	.task-list__donebutton,
+	.task-list__deletebutton {
+		height: 24px;
+		width: 24px;
+		border-radius: 100%;
+		background-color: $borderColor;
+		border: 1px solid $borderColor;
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: $textColor;
+		transition: background-color $transition, color $transition, border-color $transition;
+
+		svg {
+			height: 8px;
+			width: 8px;
+		}
+
+		&:focus {
+			border-color: $primaryColor;
+			outline: none;
+		}
+	}
+
+	.task-list__donebutton {
+		margin-right: 8px;
+
+		&.task-list__donebutton--done,
+		&.task-list__donebutton--done:hover{
+			background-color: $successColor;
+			border-color: $successColor;
+			color: #fff;
+		}
+
+		&:hover {
+			background-color: darken($borderColor, 10%);
+			border-color: darken($borderColor, 10%);
+		}
+	}
+	.task-list__deletebutton {
+		margin-left: auto;
+
+		&:hover {
+			background-color: $errorColor;
+			border-color: $errorColor;
+			color: #fff;
+		}
+	}
+}

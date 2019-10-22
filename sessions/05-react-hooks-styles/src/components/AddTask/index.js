@@ -1,11 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 
 import { ReactComponent as AddIcon } from '../../icons/Add.svg';
 import { useDispatch } from '../../utils/contexts';
 
 import './style.scss';
 
-export default function AddTask() {
+function AddTask() {
   const [task, setTask] = useState('');
   const dispatch = useDispatch();
 
@@ -40,3 +40,5 @@ export default function AddTask() {
     </div>
   );
 }
+
+export default memo(AddTask);

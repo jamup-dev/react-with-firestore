@@ -1,0 +1,35 @@
+@import '../../utils/theme';
+
+.filter-task {
+	margin: 0 0 #{$gutter}px 0;
+	display: flex;
+	justify-content: center;
+
+	.filter-task__button {
+		border: 0 none;
+		border-bottom: 1px solid $borderColor;
+		padding: 8px #{$gutter / 2}px;
+		background-color: transparent;
+		color: $textColorSecondary;
+		text-transform: lowercase;
+		transition: color $transition, border-color $transition;
+		cursor: pointer;
+
+		&.filter-task__button--active {
+			color: $primaryColor;
+			border-bottom-color: $primaryColor;
+			font-weight: bold;
+		}
+
+		&:hover {
+			color: $primaryColor;
+		}
+
+		&:focus,
+		&:active {
+			outline: none;
+			color: $primaryColor;
+			border-bottom-color: $primaryColor;
+		}
+	}
+}
