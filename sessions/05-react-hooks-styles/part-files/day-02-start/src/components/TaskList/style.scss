@@ -1,0 +1,16 @@
+@import '../../utils/theme';
+
+.task-list {
+	min-height: calc(100vh - 292px);
+	@media screen and (min-width: 660px) {
+		min-height: calc(100vh - 392px);
+	}
+
+	.task-list__notice {
+		background-color: $backgroundColor;
+		border: 1px solid $borderColor;
+		color: $textColorSecondary;
+		padding: #{$gutter / 2}px;
+		border-radius: 4px;
+	}
+}
