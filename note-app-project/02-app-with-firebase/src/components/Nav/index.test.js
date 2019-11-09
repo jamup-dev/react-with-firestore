@@ -1,15 +1,19 @@
 import React from 'react';
-import { render, fireEvent, waitForElement, act } from '@testing-library/react';
+import { render, waitForElement, act } from '@testing-library/react';
 import firebase from '../../utils/firebase';
-import { AppProvider, testPassword, testEmail } from '../../utils/testHelpers';
+import {
+  TestAppProvider,
+  testPassword,
+  testEmail,
+} from '../../utils/testHelpers';
 import Nav from './';
 
-describe('navigation bar', () => {
+describe('Nav Component', () => {
   test('shows sign-in button when not logged in', async () => {
     const { getByText } = render(
-      <AppProvider>
+      <TestAppProvider>
         <Nav />
-      </AppProvider>
+      </TestAppProvider>
     );
     await waitForElement(() => getByText('Sign In'));
   });
@@ -17,9 +21,9 @@ describe('navigation bar', () => {
   test('shows logout button when logged in', async () => {
     await act(async () => {
       const { getByTestId } = render(
-        <AppProvider>
+        <TestAppProvider>
           <Nav />
-        </AppProvider>
+        </TestAppProvider>
       );
       await firebase.auth().signInWithEmailAndPassword(testEmail, testPassword);
       await waitForElement(() => getByTestId('logoutbutton'));

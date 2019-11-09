@@ -45,7 +45,7 @@ export default function NoteForm({
 
   return (
     <div className="note-app-form">
-      <form onSubmit={handler}>
+      <form onSubmit={handler} data-testid="noteform">
         <div className="field">
           <label className="label" htmlFor="note-title">
             Title
@@ -53,6 +53,7 @@ export default function NoteForm({
           <div className="control">
             <input
               id="note-title"
+              data-testid="note-title"
               type="text"
               placeholder="Note title"
               className="input is-large"
@@ -70,6 +71,7 @@ export default function NoteForm({
           <div className="control">
             <textarea
               name="note-note"
+              data-testid="note-note"
               id="note-note"
               rows="10"
               className="textarea is-medium"
@@ -83,7 +85,11 @@ export default function NoteForm({
         </div>
         <ButtonFooter>
           <div className="control">
-            <button className="button is-primary" type="submit">
+            <button
+              className="button is-primary"
+              type="submit"
+              data-testid="submit-button"
+            >
               Submit
             </button>
           </div>

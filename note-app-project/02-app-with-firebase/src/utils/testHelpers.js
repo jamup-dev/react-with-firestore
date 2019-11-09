@@ -8,7 +8,7 @@ import Provider from '../components/Provider';
 export const testEmail = 'swashata-test@wpquark.com';
 export const testPassword = '123456';
 
-export function AppProvider({ children }) {
+export function TestAppProvider({ children }) {
   const auth = useAuth();
   const [notes, dispatch, noteLoading] = useSetupNotesWithAuth(auth);
 
