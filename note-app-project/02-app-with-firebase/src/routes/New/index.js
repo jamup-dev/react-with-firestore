@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import uuid4 from 'uuid/v4';
 import { toast } from 'react-toastify';
 
 import NoteForm from '../../components/NoteForm';
-import { noteDispatchCtx } from '../../utils/note';
+import { useDispatch } from '../../utils/note';
 
 export default function New({ history }) {
-  const dispatch = useContext(noteDispatchCtx);
+  const dispatch = useDispatch();
 
   return (
     <NoteForm

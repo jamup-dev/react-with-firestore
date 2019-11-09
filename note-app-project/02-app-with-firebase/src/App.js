@@ -10,7 +10,7 @@ import Sidebar from './components/Sidebar';
 import Nav from './components/Nav';
 import Spinner from './components/Spinner';
 import Error404 from './components/404';
-import { useNotes, notesCtx, noteDispatchCtx } from './utils/note';
+import { useSetupNotesWithAuth, notesCtx, noteDispatchCtx } from './utils/note';
 import { useAuth, userContext } from './auth/user';
 
 import Home from './routes/Home';
@@ -22,12 +22,7 @@ function App() {
   // get current auth status from our custom hook
   const auth = useAuth();
   // we will pass it down using userContext.Provider to all child components
-  const [notes, dispatch, notesLoading] = useNotes(auth);
-
-  const sidebarLinks = notes.map(note => ({
-    label: note.title,
-    to: `/note/${note.id}`,
-  }));
+  const [notes, dispatch, notesLoading] = useSetupNotesWithAuth(auth);
 
   return (
     <userContext.Provider value={auth}>
@@ -39,14 +34,14 @@ function App() {
             </header>
             <main
               className={classNames('notes-app', 'section', {
-                'notes-app--loading': auth.initializing,
+                'notes-app--loading': auth.initializing || notesLoading,
               })}
             >
-              {auth.initializing ? (
+              {auth.initializing || notesLoading ? (
                 <Spinner />
               ) : (
                 <>
-                  <Sidebar links={sidebarLinks} loading={notesLoading} />
+                  <Sidebar />
                   <div className="notes-app-area">
                     <div className="container">
                       <Switch>

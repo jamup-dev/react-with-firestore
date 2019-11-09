@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Markdown from 'markdown-to-jsx';
 import { Switch, Route, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -6,10 +6,10 @@ import { toast } from 'react-toastify';
 import Error404 from '../../components/404';
 import NoteForm from '../../components/NoteForm';
 import ButtonFooter from '../../components/ButtonFooter';
-import { notesCtx, getPosition, noteDispatchCtx } from '../../utils/note';
+import { getPosition, useDispatch, useNotes } from '../../utils/note';
 
 function ViewNote({ noteObj, match, history }) {
-  const dispatch = useContext(noteDispatchCtx);
+  const dispatch = useDispatch();
 
   const deleteHandler = e => {
     // prevent default action
@@ -54,8 +54,8 @@ function ViewNote({ noteObj, match, history }) {
   );
 }
 
-function EditNote({ noteObj }) {
-  const dispatch = useContext(noteDispatchCtx);
+function EditNote({ noteObj, history }) {
+  const dispatch = useDispatch();
   return (
     <NoteForm
       initialNote={noteObj.note}
@@ -74,13 +74,14 @@ function EditNote({ noteObj }) {
         });
         // show message using toast
         toast.success('✔️ Successfully updated note');
+        history.push(`/note/${noteObj.id}`);
       }}
     />
   );
 }
 
 export default function Note({ match, history }) {
-  const notes = useContext(notesCtx);
+  const notes = useNotes();
   const position = getPosition(notes, match.params.noteId);
   if (position === -1) {
     return (
@@ -103,7 +104,7 @@ export default function Note({ match, history }) {
       <Route
         path={`${match.url}/edit`}
         exact
-        render={() => <EditNote noteObj={noteObj} />}
+        render={() => <EditNote noteObj={noteObj} history={history} />}
       />
       <Route component={Error404} />
     </Switch>

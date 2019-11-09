@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useContext } from 'react';
 import uuid4 from 'uuid/v4';
 import firebase from './firebase';
 
@@ -44,7 +44,7 @@ export const getPosition = (haystack, id) => {
   return position;
 };
 
-export function useNotes(auth) {
+export function useSetupNotesWithAuth(auth) {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(() => {
     // the initial state depends on whether auth is there
@@ -159,3 +159,11 @@ export function useNotes(auth) {
 
 export const notesCtx = createContext();
 export const noteDispatchCtx = createContext();
+
+export function useNotes() {
+  return useContext(notesCtx);
+}
+
+export function useDispatch() {
+  return useContext(noteDispatchCtx);
+}

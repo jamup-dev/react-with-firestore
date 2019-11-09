@@ -5,11 +5,11 @@ import classNames from 'classnames';
 import fuzzySearch from 'fuzzysearch';
 
 import { useSession } from '../../auth/user';
-import Spinner from '../Spinner';
 import penUrl from './pen.svg';
 import './style.scss';
+import { useNotes } from '../../utils/note';
 
-export default function Sidebar({ links, loading }) {
+export default function Sidebar({ links }) {
   // a state for toggling the menu
   const [visible, setVisible] = useState(false);
   // a state for managing search
@@ -51,10 +51,15 @@ export default function Sidebar({ links, loading }) {
     return () => document.removeEventListener('click', handler);
   }, []);
 
+  // get notes from context
+  const notes = useNotes();
+  let filteredLinks = notes.map(note => ({
+    label: note.title,
+    to: `/note/${note.id}`,
+  }));
   // fuzzy search and filter links
-  let filteredLinks = links;
   if (search !== '' && typeof search === 'string') {
-    filteredLinks = links.filter(link =>
+    filteredLinks = filteredLinks.filter(link =>
       fuzzySearch(search.toLowerCase(), link.label.toLowerCase())
     );
   }
@@ -88,9 +93,7 @@ export default function Sidebar({ links, loading }) {
               </div>
             </div>
             <p className="menu-label">Notes</p>
-            {loading ? (
-              <Spinner />
-            ) : filteredLinks.length ? (
+            {filteredLinks.length ? (
               <ul className="menu-list">
                 {filteredLinks.map(link => (
                   <li key={link.to}>
