@@ -35,6 +35,7 @@ function Nav({ history }) {
                   </Link>
                   <button
                     className="button is-danger"
+                    data-testid="logoutbutton"
                     onClick={e => {
                       e.preventDefault();
                       firebase.auth().signOut();

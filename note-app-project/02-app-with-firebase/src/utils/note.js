@@ -159,6 +159,7 @@ export function useSetupNotesWithAuth(auth) {
 
 export const notesCtx = createContext();
 export const noteDispatchCtx = createContext();
+export const noteLoadingCtx = createContext();
 
 export function useNotes() {
   return useContext(notesCtx);
@@ -166,4 +167,8 @@ export function useNotes() {
 
 export function useDispatch() {
   return useContext(noteDispatchCtx);
+}
+
+export function useNoteLoading() {
+  return useContext(noteLoadingCtx);
 }

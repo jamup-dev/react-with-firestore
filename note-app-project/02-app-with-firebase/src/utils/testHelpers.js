@@ -1,2 +1,25 @@
-export const testUserEmail = 'swashata-test@wpquark.com';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import { useAuth } from '../auth/user';
+import { useSetupNotesWithAuth } from './note';
+import Provider from '../components/Provider';
+
+export const testEmail = 'swashata-test@wpquark.com';
 export const testPassword = '123456';
+
+export function AppProvider({ children }) {
+  const auth = useAuth();
+  const [notes, dispatch, noteLoading] = useSetupNotesWithAuth(auth);
+
+  return (
+    <Provider
+      auth={auth}
+      notes={notes}
+      dispatch={dispatch}
+      noteLoading={noteLoading}
+    >
+      <BrowserRouter>{children}</BrowserRouter>
+    </Provider>
+  );
+}
