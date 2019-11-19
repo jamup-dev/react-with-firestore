@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { notesCtx, noteDispatchCtx, noteLoadingCtx } from '../../utils/note';
-import { userContext } from '../../auth/user';
+import { userContext } from '../../utils/auth';
 
 export default function Provider({
   auth,

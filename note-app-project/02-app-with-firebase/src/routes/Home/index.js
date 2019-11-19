@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../logo.svg';
 import './style.scss';
-import { useSession } from '../../auth/user';
+import { useSession } from '../../utils/auth';
 import Spinner from '../../components/Spinner';
 
 export default function Home() {

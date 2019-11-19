@@ -12,7 +12,7 @@ import Spinner from './components/Spinner';
 import Error404 from './components/404';
 import Provider from './components/Provider';
 import { useSetupNotesWithAuth } from './utils/note';
-import { useAuth } from './auth/user';
+import { useAuth } from './utils/auth';
 
 import Home from './routes/Home';
 import Note from './routes/Note';

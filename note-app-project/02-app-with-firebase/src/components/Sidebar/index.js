@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import fuzzySearch from 'fuzzysearch';
 
-import { useSession } from '../../auth/user';
+import { useSession } from '../../utils/auth';
 import penUrl from './pen.svg';
 import './style.scss';
 import { useNotes } from '../../utils/note';

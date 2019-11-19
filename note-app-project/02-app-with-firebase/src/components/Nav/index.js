@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { ReactComponent as Logo } from '../../logo.svg';
 import './style.scss';
-import { useSession } from '../../auth/user';
+import { useSession } from '../../utils/auth';
 import firebase from '../../utils/firebase';
 import Spinner from '../Spinner';
 
