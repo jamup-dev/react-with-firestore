@@ -1,4 +1,10 @@
-import { createContext, useEffect, useState, useContext } from 'react';
+import {
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+} from 'react';
 import uuid4 from 'uuid/v4';
 import firebase from './firebase';
 
@@ -57,6 +63,8 @@ export function useSetupNotesWithAuth(auth) {
     // otherwise it will not
     return false;
   });
+  // we also have to account for any firebase error that might happen
+  const [error, setError] = useState(false);
 
   // set sync to notes during mount or auth change
   useEffect(() => {
@@ -64,40 +72,106 @@ export function useSetupNotesWithAuth(auth) {
     if (!auth.user) {
       // but do reset the notes to empty
       setNotes([]);
+      // and loading to false
+      setLoading(false);
+      // and error to false
+      setError(false);
       return;
     }
 
     // a new auth has landed, so we need to load it via onSnapshot
+    // first, set notes loading to true
     setLoading(true);
 
-    // get the docRef
-    const docRef = db.doc(`notes/${auth.user.uid}`);
+    // user document has an initialized field to check whether this one
+    // had default notes or not
+    const userDataDoc = db.doc(`data/${auth.user.uid}`);
+    // inside the document we have another collection for all the notes
+    const notesCollection = db.collection(`data/${auth.user.uid}/notes`);
+    // get the userData and check for initialized
+    userDataDoc
+      .get()
+      .then(uDataSnapshot => {
+        // a flag to determine whether uData has been initialized
+        let dataInitialized = false;
+        // for newly created users, uDataSnapshot could not exist
+        if (uDataSnapshot && uDataSnapshot.exists) {
+          const uData = uDataSnapshot.data();
+          if (uData && uData.initialized) {
+            dataInitialized = true;
+          }
+        }
 
-    // add event listener on change
-    const unsubscribe = docRef.onSnapshot(doc => {
-      // if data exists on the firestore, then simply update our local-state
-      if (doc && doc.exists) {
-        const data = doc.data();
-        setNotes(data.notes);
-      } else {
-        // no data exists on our server, so add the default one
-        docRef
-          .set({
-            notes: initialNotes,
-          })
-          .then(() => {
-            console.log('Initial save successful');
-          })
-          .catch(error => {
-            console.log('Error', error);
+        // if user has already been initialized, then just get the notes from
+        // collection and populate our data
+        if (dataInitialized) {
+          // just set loading to false, because our snapshot would update
+          // notes anyway
+          setLoading(false);
+        } else {
+          // create default set of notes in the notes collection
+          const operations = [];
+          initialNotes.forEach(n => {
+            // push our promise
+            operations.push(
+              notesCollection.doc(n.id).set({
+                title: n.title,
+                note: n.note,
+              })
+            );
           });
+          Promise.all(operations)
+            .then(() => {
+              // no need to set notes here, since it will be done on snapshot update anyway
+              // but we still need to update the userDataDoc
+              userDataDoc
+                .set({
+                  initialized: true,
+                })
+                .then(() => {
+                  setLoading(false);
+                })
+                .catch(e => {
+                  setLoading(false);
+                  setError(e);
+                });
+            })
+            .catch(e => {
+              setLoading(false);
+              setError(e);
+            });
+        }
+      })
+      .catch(e => {
+        setLoading(false);
+        setError(e);
+      });
+
+    // now add a snapshot event on the notes collection and update our state
+    // accordingly
+    const unsubscribe = notesCollection.onSnapshot(
+      // callback when snapshot updates
+      notes => {
+        const notesInDb = [];
+        notes.forEach(n => {
+          const noteData = n.data();
+          notesInDb.push({
+            id: n.id,
+            title: noteData.title,
+            note: noteData.note,
+          });
+        });
+        setLoading(false);
+        // loading is done too
+        setNotes(notesInDb);
+      },
+      // callback for errors
+      error => {
+        setError(error);
       }
-      // in any case, we have set the notes, so we are no longer loading
-      // if it was already false, then react will not re-render anyway
-      setLoading(false);
-    });
-    // return cleanup function
-    // this will be called when auth changes
+    );
+
+    // return cleanup function, it will be called when auth changes
     return () => {
       setLoading(false);
       unsubscribe();
@@ -108,53 +182,60 @@ export function useSetupNotesWithAuth(auth) {
   // instead of doing this on our state.
   // when we do the operation on firestore, it will update our state thanks to
   // the useEffect we've written before.
-  const dispatch = action => {
-    // again don't do anything if isn't authenticated
-    if (!auth.user) {
-      return;
-    }
-
-    // calculate the new notes based on action
-    let newNotes;
-    if (action.type === 'add') {
-      newNotes = [action.payload, ...notes];
-    } else if (action.type === 'update') {
-      const position = getPosition(notes, action.payload.id);
-      if (position === -1) {
-        throw new Error('Invalid id passed to payload during notes update.');
+  // Instead of creating the same function on every render, we use
+  // useCallback which would return the same function, depending on auth
+  const dispatch = useCallback(
+    action => {
+      // again don't do anything if isn't authenticated
+      if (!auth.user) {
+        return;
       }
-      newNotes = [
-        ...notes.slice(0, position),
-        {
-          id: action.payload.id,
-          title: action.payload.title,
-          note: action.payload.note,
-        },
-        ...notes.slice(position + 1),
-      ];
-    } else if (action.type === 'delete') {
-      const position = getPosition(notes, action.payload.id);
-      if (position === -1) {
-        throw new Error('Invalid id passed to payload during notes delete.');
+
+      // first get our notes collection
+      const notesCollection = db.collection(`data/${auth.user.uid}/notes`);
+      // set loading to true, because we expect async operations here
+      setLoading(true);
+      // now depending on action, do the work
+      if (action.type === 'add') {
+        // add a new note to the notes collection
+        const note = action.payload;
+        notesCollection
+          .doc(note.id)
+          .set({
+            title: note.title,
+            note: note.note,
+          })
+          .catch(e => {
+            setError(e);
+          });
+      } else if (action.type === 'update') {
+        // update a note to the collection
+        const note = action.payload;
+        notesCollection
+          .doc(note.id)
+          .set({
+            title: note.title,
+            note: note.note,
+          })
+          .catch(e => {
+            setError(e);
+          });
+      } else if (action.type === 'delete') {
+        notesCollection
+          .doc(action.payload.id)
+          .delete()
+          .catch(e => {
+            setError(e);
+          });
+      } else {
+        // no async operation done, so no need to set loading
+        setLoading(false);
       }
-      newNotes = [...notes.slice(0, position), ...notes.slice(position + 1)];
-    }
+    },
+    [auth]
+  );
 
-    // update to firestore
-    const docRef = db.doc(`notes/${auth.user.uid}`);
-    docRef
-      .set({
-        notes: newNotes,
-      })
-      .then(() => {
-        console.log('Successfully saved');
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
-  };
-
-  return [notes, dispatch, loading];
+  return [notes, dispatch, loading, error];
 }
 
 export const notesCtx = createContext();

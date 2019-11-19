@@ -128,12 +128,3 @@ export default function Sidebar({ links }) {
     </>
   );
 }
-
-Sidebar.propTypes = {
-  links: PropTypes.arrayOf(
-    PropTypes.shape({
-      to: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};

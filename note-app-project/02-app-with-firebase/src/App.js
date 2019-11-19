@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import classNames from 'classnames';
 
 import './style.scss';
@@ -23,7 +23,19 @@ function App() {
   // get current auth status from our custom hook
   const auth = useAuth();
   // we will pass it down using userContext.Provider to all child components
-  const [notes, dispatch, noteLoading] = useSetupNotesWithAuth(auth);
+  const [notes, dispatch, noteLoading, noteError] = useSetupNotesWithAuth(auth);
+
+  // if there is an error, show a toast message
+  useEffect(() => {
+    if (noteError) {
+      toast.error(
+        noteError && noteError.message ? noteError.message : noteError,
+        {
+          autoClose: false,
+        }
+      );
+    }
+  }, [noteError]);
 
   return (
     <Provider

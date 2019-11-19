@@ -6,7 +6,13 @@ import { toast } from 'react-toastify';
 import Error404 from '../../components/404';
 import NoteForm from '../../components/NoteForm';
 import ButtonFooter from '../../components/ButtonFooter';
-import { getPosition, useDispatch, useNotes } from '../../utils/note';
+import {
+  getPosition,
+  useDispatch,
+  useNotes,
+  useNoteLoading,
+} from '../../utils/note';
+import Spinner from '../../components/Spinner';
 
 function ViewNote({ noteObj, match, history }) {
   const dispatch = useDispatch();
@@ -82,6 +88,12 @@ function EditNote({ noteObj, history }) {
 
 export default function Note({ match, history }) {
   const notes = useNotes();
+  const notesLoading = useNoteLoading();
+
+  if (notesLoading) {
+    return <Spinner />;
+  }
+
   const position = getPosition(notes, match.params.noteId);
   if (position === -1) {
     return (
