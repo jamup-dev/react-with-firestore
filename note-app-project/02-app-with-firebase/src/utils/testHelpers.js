@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { useAuth } from '../utils/user';
+import { useAuth } from '../utils/auth';
 import { useSetupNotesWithAuth } from './note';
 import Provider from '../components/Provider';
 
