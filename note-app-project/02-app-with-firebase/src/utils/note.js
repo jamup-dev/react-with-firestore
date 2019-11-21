@@ -86,7 +86,7 @@ export function useSetupNotesWithAuth(auth) {
     // user document has an initialized field to check whether this one
     // had default notes or not
     const userDataDoc = db.doc(`data/${auth.user.uid}`);
-    // inside the document we have another collection for all the notes
+    // inside the document we have another sub-collection for all the notes
     const notesCollection = db.collection(`data/${auth.user.uid}/notes`);
     // get the userData and check for initialized
     userDataDoc
@@ -102,14 +102,10 @@ export function useSetupNotesWithAuth(auth) {
           }
         }
 
-        // if user has already been initialized, then just get the notes from
-        // collection and populate our data
-        if (dataInitialized) {
-          // just set loading to false, because our snapshot would update
-          // notes anyway
-          setLoading(false);
-        } else {
-          // create default set of notes in the notes collection
+        // if user data has not been initialized, then create default sets of
+        // notes from our array of initialNotes and return a new promise to
+        // the chain
+        if (!dataInitialized) {
           const operations = [];
           initialNotes.forEach(n => {
             // push our promise
@@ -125,26 +121,35 @@ export function useSetupNotesWithAuth(auth) {
                 })
             );
           });
-          Promise.all(operations)
-            .then(() => {
-              // no need to set notes here, since it will be done on snapshot update anyway
-              // but we still need to update the userDataDoc
-              return userDataDoc.set({
-                initialized: true,
-              });
-            })
-            .then(() => {
-              setLoading(false);
-            })
-            .catch(e => {
-              setLoading(false);
-              setError(e);
-            });
+          return Promise.all(operations);
         }
+
+        // otherwise, there is no operation to perform, so return false
+        // this will be picked by next then chain
+        return false;
+      })
+      // the next then chain is called when Promise.all is resolved from last
+      // chain (if needed) or immediately if we returned false when initialized
+      // was set to true.
+      .then(hasInitialized => {
+        // if it has been initialized in the last step, then set the flag on
+        // database as well
+        if (hasInitialized) {
+          // no need to set notes here, since it will be done on snapshot update anyway
+          // but we still need to update the userDataDoc
+          // So return this promise which would be picked by the finally chain
+          return userDataDoc.set({
+            initialized: true,
+          });
+        }
+        return false;
       })
       .catch(e => {
-        setLoading(false);
         setError(e);
+      })
+      .finally(() => {
+        // we are not loading anymore
+        setLoading(false);
       });
 
     // now add a snapshot event on the notes collection and update our state

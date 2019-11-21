@@ -10,9 +10,9 @@ export default function Signin({ history }) {
   const uiConfig = {
     // Redirect signin flow.
     signInFlow: 'popup',
-    // Provide a callbacks.signInSuccess function.
+    // Provide a callbacks.signInSuccessWithAuthResult function.
     callbacks: {
-      signInSuccess() {
+      signInSuccessWithAuthResult() {
         history.push('/');
       },
     },
