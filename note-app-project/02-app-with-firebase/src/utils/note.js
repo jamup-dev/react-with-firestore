@@ -6,9 +6,8 @@ import {
   useCallback,
 } from 'react';
 import uuid4 from 'uuid/v4';
-import firebase from './firebase';
 
-const db = firebase.firestore();
+import { firebaseDb as db } from './firebase';
 
 const initialNotes = [
   {

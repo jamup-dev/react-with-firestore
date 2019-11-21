@@ -1,7 +1,8 @@
 import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase';
 
-import firebase from '../../utils/firebase';
+import { firebaseAuth } from '../../utils/firebase';
 import { useSession } from '../../utils/auth';
 import Spinner from '../../components/Spinner';
 
@@ -28,10 +29,7 @@ export default function Signin({ history }) {
       {session.initializing ? (
         <Spinner />
       ) : (
-        <StyledFirebaseAuth
-          uiConfig={uiConfig}
-          firebaseAuth={firebase.auth()}
-        />
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebaseAuth} />
       )}
     </div>
   );

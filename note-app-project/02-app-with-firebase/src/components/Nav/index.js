@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { ReactComponent as Logo } from '../../logo.svg';
 import './style.scss';
 import { useSession } from '../../utils/auth';
-import firebase from '../../utils/firebase';
+import { firebaseAuth } from '../../utils/firebase';
 import Spinner from '../Spinner';
 
 function Nav({ history }) {
@@ -38,7 +38,7 @@ function Nav({ history }) {
                     data-testid="logoutbutton"
                     onClick={e => {
                       e.preventDefault();
-                      firebase.auth().signOut();
+                      firebaseAuth.signOut();
                       history.push('/');
                       toast.success('Successfully logged out');
                     }}
