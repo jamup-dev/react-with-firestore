@@ -1,11 +1,45 @@
 ## NOTES APP WITH GOOGLE FIREBASE
 
 - [Google Firebase](https://firebase.google.com/).
+- [Authentication](https://firebase.google.com/docs/auth).
+- [Cloud FireStore - Database](https://firebase.google.com/docs/firestore).
 - [Firebase JavaScript SDK](https://firebase.google.com/docs/reference/js).
 - [React Firebase UI](https://github.com/firebase/firebaseui-web-react).
 
 This project was bootstrapped with
 [Create React App](https://github.com/facebook/create-react-app).
+
+## SETUP TESTS
+
+The project uses
+[Firebase Emulator](https://firebase.google.com/docs/rules/emulator-setup).
+
+- Install and setup [Firebase CLI](https://firebase.google.com/docs/cli).
+- Download and install
+  [Firebase Emulator](https://firebase.google.com/docs/rules/emulator-setup).
+- Run the tests.
+
+The following are the commands you need to execute.
+
+```bash
+npm install -g firebase-tools
+firebase emulators:start
+```
+
+The second command `firebase emulators:start` will automatically download
+emulator if not present and start it. Press `Ctrl + c` to quit.
+
+Now run
+
+```bash
+yarn test
+```
+
+And it will run the test suits. Alternately you can run
+
+```bash
+yarn firebasetest
+```
 
 ## Available Scripts
 
