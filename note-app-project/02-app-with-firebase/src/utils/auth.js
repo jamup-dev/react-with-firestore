@@ -1,14 +1,12 @@
 import React, { createContext, useContext } from 'react';
 
-import { firebaseAuth } from './firebase';
-
 export const userContext = createContext({ user: null, initializing: true });
 
 export const useSession = () => {
   return useContext(userContext);
 };
 
-export const useAuth = () => {
+export const useAuth = firebaseAuth => {
   // lazily init state when called the first time in a component
   const [state, setState] = React.useState(() => {
     // right now, currentUser might be null, because firebase needs some time
@@ -25,7 +23,7 @@ export const useAuth = () => {
     });
     // unsubscribe to the listener when unmounting
     return unsubscribe;
-  }, []);
+  }, [firebaseAuth]);
 
   return state;
 };

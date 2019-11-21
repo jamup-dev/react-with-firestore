@@ -19,11 +19,16 @@ import Note from './routes/Note';
 import New from './routes/New';
 import Signin from './routes/Signin';
 
+import { firebaseAuth, firebaseDb } from './utils/firebase';
+
 function App() {
   // get current auth status from our custom hook
-  const auth = useAuth();
+  const auth = useAuth(firebaseAuth);
   // we will pass it down using userContext.Provider to all child components
-  const [notes, dispatch, noteLoading, noteError] = useSetupNotesWithAuth(auth);
+  const [notes, dispatch, noteLoading, noteError] = useSetupNotesWithAuth(
+    auth,
+    firebaseDb
+  );
 
   // if there is an error, show a toast message
   useEffect(() => {
@@ -46,7 +51,7 @@ function App() {
     >
       <Router>
         <header>
-          <Nav />
+          <Nav firebaseAuth={firebaseAuth} />
         </header>
         <main
           className={classNames('notes-app', 'section', {

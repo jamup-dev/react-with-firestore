@@ -2,7 +2,7 @@ import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 import firebase from '../../utils/firebase';
-import Spinner from '../../components/Spinner/';
+import Spinner from '../../components/Spinner';
 import { useSession } from '../../utils/auth';
 
 export default function Signin({ history }) {

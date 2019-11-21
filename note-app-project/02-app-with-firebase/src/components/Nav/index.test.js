@@ -1,34 +1,51 @@
 import React from 'react';
-import { render, waitForElement, act } from '@testing-library/react';
-import firebase from '../../utils/firebase';
+import { render, waitForElement, act, fireEvent } from '@testing-library/react';
 import {
   TestAppProvider,
-  testPassword,
-  testEmail,
+  testAuthObj,
+  getFirebaseApp,
+  getFirebaseAuth,
+  getFirebaseAppAndAuth,
 } from '../../utils/testHelpers';
 import Nav from './';
 
 describe('Nav Component', () => {
   test('shows sign-in button when not logged in', async () => {
+    const [app, auth] = getFirebaseAppAndAuth(null);
     const { getByText } = render(
-      <TestAppProvider>
-        <Nav />
+      <TestAppProvider app={app} auth={auth}>
+        <Nav firebaseAuth={{ signOut: () => {} }} />
       </TestAppProvider>
     );
     await waitForElement(() => getByText('Sign In'));
   });
 
   test('shows logout button when logged in', async () => {
-    await act(async () => {
-      const { getByTestId } = render(
-        <TestAppProvider>
-          <Nav />
-        </TestAppProvider>
-      );
-      await firebase.auth().signInWithEmailAndPassword(testEmail, testPassword);
-      await waitForElement(() => getByTestId('logoutbutton'));
-      // cleanup
-      await firebase.auth().signOut();
+    const [app, auth] = getFirebaseAppAndAuth();
+    const { getByTestId } = render(
+      <TestAppProvider app={app} auth={auth}>
+        <Nav firebaseAuth={{ signOut: () => {} }} />
+      </TestAppProvider>
+    );
+    await waitForElement(() => getByTestId('logoutbutton'));
+  });
+
+  test('calls firebase signout function when clicked on logout button', async () => {
+    const [app, auth] = getFirebaseAppAndAuth();
+    const authMock = { signOut: jest.fn() };
+
+    const { getByTestId } = render(
+      <TestAppProvider app={app} auth={auth}>
+        <Nav firebaseAuth={authMock} />
+      </TestAppProvider>
+    );
+
+    const button = await waitForElement(() => getByTestId('logoutbutton'));
+
+    fireEvent.click(button, {
+      preventDefault: () => {},
     });
+
+    expect(authMock.signOut).toBeCalledTimes(1);
   });
 });

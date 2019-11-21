@@ -7,8 +7,6 @@ import {
 } from 'react';
 import uuid4 from 'uuid/v4';
 
-import { firebaseDb as db } from './firebase';
-
 const initialNotes = [
   {
     id: uuid4(),
@@ -49,7 +47,7 @@ export const getPosition = (haystack, id) => {
   return position;
 };
 
-export function useSetupNotesWithAuth(auth) {
+export function useSetupNotesWithAuth(auth, db) {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(() => {
     // the initial state depends on whether auth is there
@@ -180,7 +178,7 @@ export function useSetupNotesWithAuth(auth) {
       setLoading(false);
       unsubscribe();
     };
-  }, [auth]);
+  }, [auth, db]);
 
   // now create our custom dispatcher function to do the operation on firestore
   // instead of doing this on our state.
@@ -236,7 +234,7 @@ export function useSetupNotesWithAuth(auth) {
         setLoading(false);
       }
     },
-    [auth]
+    [auth, db]
   );
 
   return [notes, dispatch, loading, error];
