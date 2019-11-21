@@ -114,27 +114,27 @@ export function useSetupNotesWithAuth(auth) {
           initialNotes.forEach(n => {
             // push our promise
             operations.push(
-              notesCollection.doc(n.id).set({
-                title: n.title,
-                note: n.note,
-              })
+              notesCollection
+                .doc(n.id)
+                .set({
+                  title: n.title,
+                  note: n.note,
+                })
+                .catch(e => {
+                  setError(e);
+                })
             );
           });
           Promise.all(operations)
             .then(() => {
               // no need to set notes here, since it will be done on snapshot update anyway
               // but we still need to update the userDataDoc
-              userDataDoc
-                .set({
-                  initialized: true,
-                })
-                .then(() => {
-                  setLoading(false);
-                })
-                .catch(e => {
-                  setLoading(false);
-                  setError(e);
-                });
+              return userDataDoc.set({
+                initialized: true,
+              });
+            })
+            .then(() => {
+              setLoading(false);
             })
             .catch(e => {
               setLoading(false);
