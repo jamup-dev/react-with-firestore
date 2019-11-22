@@ -4,6 +4,7 @@ import {
   useState,
   useContext,
   useCallback,
+  useRef,
 } from 'react';
 import uuid4 from 'uuid/v4';
 
@@ -63,6 +64,16 @@ export function useSetupNotesWithAuth(auth, db) {
   // we also have to account for any firebase error that might happen
   const [error, setError] = useState(false);
 
+  // we need a isMounted ref to not call setState from async function
+  // when the component is no longer mounted
+  const isMounted = useRef();
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   // set sync to notes during mount or auth change
   useEffect(() => {
     // don't do any effect if auth hasn't found a user
@@ -114,7 +125,9 @@ export function useSetupNotesWithAuth(auth, db) {
                   note: n.note,
                 })
                 .catch(e => {
-                  setError(e);
+                  if (isMounted.current) {
+                    setError(e);
+                  }
                 })
             );
           });
@@ -142,11 +155,15 @@ export function useSetupNotesWithAuth(auth, db) {
         return false;
       })
       .catch(e => {
-        setError(e);
+        if (isMounted.current) {
+          setError(e);
+        }
       })
       .finally(() => {
         // we are not loading anymore
-        setLoading(false);
+        if (isMounted.current) {
+          setLoading(false);
+        }
       });
 
     // now add a snapshot event on the notes collection and update our state
@@ -175,7 +192,9 @@ export function useSetupNotesWithAuth(auth, db) {
 
     // return cleanup function, it will be called when auth changes
     return () => {
-      setLoading(false);
+      if (isMounted.current) {
+        setLoading(false);
+      }
       unsubscribe();
     };
   }, [auth, db]);
@@ -208,7 +227,9 @@ export function useSetupNotesWithAuth(auth, db) {
             note: note.note,
           })
           .catch(e => {
-            setError(e);
+            if (isMounted.current) {
+              setError(e);
+            }
           });
       } else if (action.type === 'update') {
         // update a note to the collection
@@ -220,14 +241,18 @@ export function useSetupNotesWithAuth(auth, db) {
             note: note.note,
           })
           .catch(e => {
-            setError(e);
+            if (isMounted.current) {
+              setError(e);
+            }
           });
       } else if (action.type === 'delete') {
         notesCollection
           .doc(action.payload.id)
           .delete()
           .catch(e => {
-            setError(e);
+            if (isMounted.current) {
+              setError(e);
+            }
           });
       } else {
         // no async operation done, so no need to set loading
