@@ -5,6 +5,7 @@
 - [Cloud FireStore - Database](https://firebase.google.com/docs/firestore).
 - [Firebase JavaScript SDK](https://firebase.google.com/docs/reference/js).
 - [React Firebase UI](https://github.com/firebase/firebaseui-web-react).
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
 
 This project was bootstrapped with
 [Create React App](https://github.com/facebook/create-react-app).

@@ -9,6 +9,7 @@ export default function Spinner({ inline, ...svgProps }) {
       className={classNames('notes-app-spinner', {
         'notes-app-spinner--inline': inline,
       })}
+      data-testid="spinner"
     >
       <svg
         width={64}

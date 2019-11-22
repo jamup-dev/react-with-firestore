@@ -14,6 +14,19 @@ export const testAuthObj = {
   email: testEmail,
 };
 
+export const listOfNotes = [
+  {
+    id: 'note-id-1',
+    title: 'Note Title One',
+    note: 'Note Content One',
+  },
+  {
+    id: 'note-id-2',
+    title: 'Note Title Two',
+    note: 'Note Content Two',
+  },
+];
+
 // This function gives firebaseApp instance which talks to
 // the emulator, instead of live Google Firebase Server
 // The API is very similar to firebase.initializeApp
@@ -35,6 +48,32 @@ export function getFirebaseAuth(authObj = testAuthObj) {
     initializing: false,
     user: authObj,
   };
+}
+
+/**
+ * Set notes in an app.
+ *
+ * Must call it before `useSetupNotesWithAuth`.
+ */
+export async function setNotesInApp(app, auth, notes = listOfNotes) {
+  const db = app.firestore();
+  const docRef = db.doc(`data/${auth.user.uid}`);
+  const collectionRef = db.collection(`data/${auth.user.uid}/notes`);
+  // set initialized to true in doc
+  await docRef.set({
+    initialized: true,
+  });
+  // put notes in subcollection
+  const operations = [];
+  notes.forEach(note => {
+    operations.push(
+      collectionRef.doc(note.id).set({
+        title: note.title,
+        note: note.note,
+      })
+    );
+  });
+  await Promise.all[operations];
 }
 
 export function getFirebaseAppAndAuth(authObj = testAuthObj) {

@@ -111,7 +111,9 @@ export default function Sidebar({ links }) {
             )}
           </>
         ) : (
-          <p className="is-size-5">Please sign in to access your notes!</p>
+          <p className="is-size-5" data-testid="sidebar-logout-msg">
+            Please sign in to access your notes!
+          </p>
         )}
       </aside>
       <button
