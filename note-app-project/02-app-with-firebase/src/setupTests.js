@@ -1,31 +1,28 @@
 import fs from 'fs';
 import path from 'path';
-
+import * as firebase from '@firebase/testing';
 // import side-effects from jest-dom
 import '@testing-library/jest-dom/extend-expect';
 
-// we mock default firebase in utils with the test database
-jest.mock('./utils/firebase.js', () => {
-  const firebaseTest = require('./utils/firebase.testserver.js');
-  return firebaseTest;
-});
+import { projectId } from './utils/testHelpers';
 
 // setup firebase for tests
-const firebase = require('@firebase/testing');
-const projectId = 'firestore-emulator-notes-app';
 const rules = fs.readFileSync(
   path.resolve(__dirname, '../firestore.rules'),
   'utf8'
 );
 
-beforeEach(() => {
-  return firebase.clearFirestoreData({ projectId });
-});
-
+// before starting the test package, load firestore rules
 beforeAll(() => {
   return firebase.loadFirestoreRules({ projectId, rules });
 });
 
+// before every test, clear firestore data
+beforeEach(() => {
+  return firebase.clearFirestoreData({ projectId });
+});
+
+// after all test package, delete everything in app
 afterAll(() => {
   return Promise.all(firebase.apps().map(app => app.delete()));
 });

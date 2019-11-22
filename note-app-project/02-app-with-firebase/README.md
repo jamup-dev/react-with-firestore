@@ -41,6 +41,21 @@ And it will run the test suits. Alternately you can run
 yarn firebasetest
 ```
 
+### How Test Setup Works
+
+1. First we have `utils/testHelpers.js` where we use `@firebase/testing` library
+   instead of `firebase` to create a test app with a project id.
+2. In the same file, we have several functions to create test app as needed.
+3. Since we can not use `auth()` on test app, we mock the implementation of
+   `useAuth` hook.
+4. Finally we have a `TestAppProvider` that takes an instance of test app and
+   auth object (similar to `useAuth` hook output). We wrap every component we
+   want to test with this.
+5. In `src/setupTests.js` we clear firebase store when necessary to have
+   isolation.
+6. In the same file, we also load firestore rules before starting the test
+   package.
+
 ## Available Scripts
 
 In the project directory, you can run:
