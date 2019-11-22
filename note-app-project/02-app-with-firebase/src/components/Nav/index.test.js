@@ -1,10 +1,7 @@
 import React from 'react';
-import { render, waitForElement, act, fireEvent } from '@testing-library/react';
+import { render, waitForElement, fireEvent } from '@testing-library/react';
 import {
   TestAppProvider,
-  testAuthObj,
-  getFirebaseApp,
-  getFirebaseAuth,
   getFirebaseAppAndAuth,
 } from '../../utils/testHelpers';
 import Nav from './';
