@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent, waitForElement } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import NoteForm from '.';
