@@ -67,7 +67,12 @@ function App({ firebaseAuth, firebaseDb }) {
                     <Route path="/" exact component={Home} />
                     <Route path="/new" exact component={New} />
                     <Route path="/note/:noteId" component={Note} />
-                    <Route path="/signin" component={Signin} />
+                    <Route
+                      path="/signin"
+                      render={({ history }) => (
+                        <Signin history={history} firebaseAuth={firebaseAuth} />
+                      )}
+                    />
                     <Route component={Error404} />
                   </Switch>
                 </div>

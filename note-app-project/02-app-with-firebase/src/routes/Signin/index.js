@@ -2,11 +2,10 @@ import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 
-import { firebaseAuth } from '../../utils/firebase';
 import { useSession } from '../../utils/auth';
 import Spinner from '../../components/Spinner';
 
-export default function Signin({ history }) {
+export default function Signin({ history, firebaseAuth }) {
   const session = useSession();
   const uiConfig = {
     // Redirect signin flow.
