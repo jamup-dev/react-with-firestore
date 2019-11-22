@@ -1,16 +1,10 @@
 import React from 'react';
-import { render, act, fireEvent, wait, cleanup } from '@testing-library/react';
+import { render, act, fireEvent, cleanup } from '@testing-library/react';
 import {
   TestAppProvider,
   getFirebaseAppAndAuth,
 } from '../../utils/testHelpers';
 import New from '.';
-
-function waaait(timeout = 1000) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-}
 
 describe('New Route Component', () => {
   test('shows the note form component', async () => {
@@ -74,6 +68,8 @@ describe('New Route Component', () => {
       }
     });
     expect(found).toBeTruthy();
+    // we expect a total of 3 notes
+    // two added automatically, 1 after dispatch
     expect(count).toBe(3);
   });
 });

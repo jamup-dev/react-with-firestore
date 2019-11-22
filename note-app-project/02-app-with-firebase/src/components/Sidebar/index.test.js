@@ -3,7 +3,6 @@ import { render, fireEvent, act } from '@testing-library/react';
 import {
   TestAppProvider,
   getFirebaseAppAndAuth,
-  listOfNotes,
   setNotesInApp,
 } from '../../utils/testHelpers';
 
@@ -29,7 +28,7 @@ describe('Sidebar Component', () => {
     // is going to show up in the sidebar
     // do it in an act, because it would cause a state change with `useNotes`
     // in the TestAppProvider->Sidebar
-    await setNotesInApp(app, auth);
+    const listOfNotes = await setNotesInApp(app, auth);
 
     // render the app
     const { getByTestId, findByPlaceholderText, findByText } = render(

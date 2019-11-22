@@ -76,6 +76,8 @@ export async function setNotesInApp(app, auth, notes = listOfNotes) {
     );
   });
   await Promise.all[operations];
+
+  return notes;
 }
 
 /**
@@ -86,7 +88,7 @@ export function getFirebaseAppAndAuth(authObj = testAuthObj) {
   return [getFirebaseApp(authObj), getFirebaseAuth(authObj)];
 }
 
-export function TestAppProvider({ children, auth, app }) {
+export function TestAppProvider({ children, auth, app, initialRoute = '/' }) {
   // we can not call app.auth() right now, because
   // it will throw an error from @firebase/testing
   // hence we can not call useAuth hook in this (unlike App)
@@ -105,7 +107,7 @@ export function TestAppProvider({ children, auth, app }) {
       dispatch={dispatch}
       noteLoading={noteLoading}
     >
-      <MemoryRouter>{children}</MemoryRouter>
+      <MemoryRouter initialEntries={[initialRoute]}>{children}</MemoryRouter>
       <ToastContainer />
     </Provider>
   );
