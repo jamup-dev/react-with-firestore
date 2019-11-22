@@ -14,7 +14,7 @@ import {
 } from '../../utils/note';
 import Spinner from '../../components/Spinner';
 
-export function ViewNote({ noteObj, match, history }) {
+function ViewNote({ noteObj, match, history }) {
   const dispatch = useDispatch();
 
   const deleteHandler = e => {
@@ -60,7 +60,7 @@ export function ViewNote({ noteObj, match, history }) {
   );
 }
 
-export function EditNote({ noteObj, history }) {
+function EditNote({ noteObj, history }) {
   const dispatch = useDispatch();
   return (
     <NoteForm
