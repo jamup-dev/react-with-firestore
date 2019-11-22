@@ -54,6 +54,8 @@ export function getFirebaseAuth(authObj = testAuthObj) {
  * Set notes in an app.
  *
  * Must call it before `useSetupNotesWithAuth`.
+ *
+ * @param  {firebase.app.App} app App
  */
 export async function setNotesInApp(app, auth, notes = listOfNotes) {
   const db = app.firestore();
@@ -76,6 +78,10 @@ export async function setNotesInApp(app, auth, notes = listOfNotes) {
   await Promise.all[operations];
 }
 
+/**
+ *
+ * @param {object} authObj Auth object.
+ */
 export function getFirebaseAppAndAuth(authObj = testAuthObj) {
   return [getFirebaseApp(authObj), getFirebaseAuth(authObj)];
 }

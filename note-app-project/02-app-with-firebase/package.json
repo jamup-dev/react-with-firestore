@@ -20,7 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --verbose=true",
+    "test": "react-scripts test --verbose=true --runInBand --coverage",
     "eject": "react-scripts eject",
     "firebasetest": "firebase emulators:exec --only firestore 'yarn test'"
   },

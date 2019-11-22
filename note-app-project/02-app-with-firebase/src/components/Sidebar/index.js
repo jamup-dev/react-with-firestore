@@ -6,7 +6,8 @@ import fuzzySearch from 'fuzzysearch';
 import { useSession } from '../../utils/auth';
 import penUrl from './pen.svg';
 import './style.scss';
-import { useNotes } from '../../utils/note';
+import { useNotes, useNoteLoading } from '../../utils/note';
+import Spinner from '../Spinner';
 
 export default function Sidebar({ links }) {
   // a state for toggling the menu
@@ -52,6 +53,7 @@ export default function Sidebar({ links }) {
 
   // get notes from context
   const notes = useNotes();
+  const notesLoading = useNoteLoading();
   let filteredLinks = notes.map(note => ({
     label: note.title,
     to: `/note/${note.id}`,
@@ -63,6 +65,10 @@ export default function Sidebar({ links }) {
     );
   }
 
+  if (notesLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <aside
@@ -70,6 +76,7 @@ export default function Sidebar({ links }) {
         className={classNames('menu main-menu', {
           'menu-is-visible': visible,
         })}
+        data-testid="sidebar-aside"
       >
         {session.user ? (
           <>
@@ -103,7 +110,7 @@ export default function Sidebar({ links }) {
                 ))}
               </ul>
             ) : (
-              <p>
+              <p data-testid="no-notes">
                 {search
                   ? 'No notes found, try removing the filter.'
                   : 'No notes found. Please add some.'}
@@ -118,6 +125,7 @@ export default function Sidebar({ links }) {
       </aside>
       <button
         ref={buttonRef}
+        data-testid="sidebar-toggle"
         className="menu-toggler button"
         onClick={e => {
           e.preventDefault();

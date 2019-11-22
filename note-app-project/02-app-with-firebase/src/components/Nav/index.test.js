@@ -1,47 +1,45 @@
 import React from 'react';
-import { render, waitForElement, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import {
   TestAppProvider,
   getFirebaseAppAndAuth,
 } from '../../utils/testHelpers';
-import Nav from './';
+import Nav from '.';
 
 describe('Nav Component', () => {
   test('shows sign-in button when not logged in', async () => {
     const [app, auth] = getFirebaseAppAndAuth(null);
-    const { getByText } = render(
+    const { findByText } = render(
       <TestAppProvider app={app} auth={auth}>
         <Nav firebaseAuth={{ signOut: () => {} }} />
       </TestAppProvider>
     );
-    await waitForElement(() => getByText('Sign In'));
+    expect(await findByText('Sign In')).toBeInTheDocument();
   });
 
   test('shows logout button when logged in', async () => {
     const [app, auth] = getFirebaseAppAndAuth();
-    const { getByTestId } = render(
+    const { findByTestId } = render(
       <TestAppProvider app={app} auth={auth}>
         <Nav firebaseAuth={{ signOut: () => {} }} />
       </TestAppProvider>
     );
-    await waitForElement(() => getByTestId('logoutbutton'));
+    expect(await findByTestId('logoutbutton')).toBeInTheDocument();
   });
 
   test('calls firebase signout function when clicked on logout button', async () => {
     const [app, auth] = getFirebaseAppAndAuth();
     const authMock = { signOut: jest.fn() };
 
-    const { getByTestId } = render(
+    const { findByTestId } = render(
       <TestAppProvider app={app} auth={auth}>
         <Nav firebaseAuth={authMock} />
       </TestAppProvider>
     );
 
-    const button = await waitForElement(() => getByTestId('logoutbutton'));
+    const button = await findByTestId('logoutbutton');
 
-    fireEvent.click(button, {
-      preventDefault: () => {},
-    });
+    fireEvent.click(button);
 
     expect(authMock.signOut).toBeCalledTimes(1);
   });
