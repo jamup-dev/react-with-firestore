@@ -119,13 +119,54 @@ with the setup and emulator for hosting will be added. To run emulator, use
 firebase emulators:start --only hosting
 ```
 
-## DEPLOY TO FIREBASE
+## DEPLOYMENT
 
-With all the setup, simply run
+This is a Static Single Page Application. So we only need to host static HTML
+and other asset files. We will see how to use Firebase hosting and netlify to
+deploy our sites. But first make sure to build the production version using
+
+```bash
+yarn build
+```
+
+### DEPLOY TO FIREBASE
+
+With all the setup already, simply run
 
 ```bash
 firebase deploy
 ```
+
+### DEPLOY TO NETLIFY
+
+First install netlify cli
+
+```bash
+npm i -g netlify-cli
+```
+
+This will give you `netlify` CLI tool in your device. Now login to your netlify
+account using
+
+```bash
+netlify login
+```
+
+Now we need to configure redirects for netlify, so that our SPA works. In the
+`public` directory of CRA, add a file `_redirects` with the following content:
+
+```
+/*    /index.html   200
+```
+
+Now from the project directory run
+
+```bash
+yarn build
+netlify deploy --prod
+```
+
+When prompted choose `build` as the Publish Directory.
 
 ## Available Scripts
 
