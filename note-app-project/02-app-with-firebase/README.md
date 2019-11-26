@@ -57,6 +57,76 @@ yarn firebasetest
 6. In the same file, we also load firestore rules before starting the test
    package.
 
+## SETUP FIREBASE YOURSELF
+
+This assumes you are writing your own project and not using the `firebase.json`
+and other files already in the repository.
+
+Once you have installed `firebase-cli` you have `firebase` command available in
+your CLI.
+
+First login to your firebase account using
+
+```bash
+firebase login
+```
+
+To verify run
+
+```bash
+firebase list
+```
+
+Which will list all your firebase projects.
+
+#### SETUP FIREBASE FIRESTORE
+
+From the project directory run
+
+```bash
+firebase init
+```
+
+Select `Firestore` and `Emulator` and continue with the setup. This will also
+ask which project you'd want to associate with and select your project.
+
+Now to run emulator, use
+
+```bash
+firebase emulators:start --only firestore
+```
+
+#### SETUP FIREBASE HOSTING
+
+Again run
+
+```bash
+firebase init
+```
+
+And select `Hosting` this time. This will ask you some questions
+
+1. Use directory `build` for hosting.
+2. Answer `Y` for Single Page Application.
+
+This will modify `firebase.json` file and add needed directives.
+
+We would also need emulator for hosting, so run again `firebase init` and select
+`Emulator` now. It should check `Firestore` and `Hosting` by default. Proceed
+with the setup and emulator for hosting will be added. To run emulator, use
+
+```bash
+firebase emulators:start --only hosting
+```
+
+## DEPLOY TO FIREBASE
+
+With all the setup, simply run
+
+```bash
+firebase deploy
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
